@@ -1,0 +1,1 @@
+import { default as RecentPost } from './RecentPost';

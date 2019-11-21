@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "412e472acaeb2c3338f3609f8baf90a0",
+    "revision": "a3035701b2c7d0077aa42cbfd6de3d81",
     "url": "/callie-blog/index.html"
   },
   {
-    "revision": "52636fa2e2dbbd93f79b",
+    "revision": "ce4f0671787afafa3466",
     "url": "/callie-blog/static/css/main.31218e57.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/callie-blog/static/js/2.b741d38c.chunk.js"
   },
   {
-    "revision": "52636fa2e2dbbd93f79b",
-    "url": "/callie-blog/static/js/main.95a6f180.chunk.js"
+    "revision": "ce4f0671787afafa3466",
+    "url": "/callie-blog/static/js/main.3b85f98c.chunk.js"
   },
   {
     "revision": "5fd0133620e0da8cf668",

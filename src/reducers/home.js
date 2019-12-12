@@ -7,6 +7,7 @@ export default (state={}, action) => {
                 ...state,
                 postCategory: action.data.data,
             };
+
         default:
             return state;
     }

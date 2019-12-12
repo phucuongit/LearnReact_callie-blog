@@ -3,16 +3,23 @@ import  {RecentPost}  from '../../components/ArticlePost';
 import {CategoryType} from '../../components/CategoryType';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import Cookies from "js-cookie";
+
 class FrontEnd extends Component {
+    constructor(props){
+        super(props);
+    }
     componentDidMount(){
+        // if(!Cookies.get('access_token')){
+        //     this.props.history.push('/login');
+        // }
+
         const {onLoad} = this.props;
         axios.get('http://127.0.0.1:8000/posts')
             .then(res => onLoad(res));
     }
     render() {
         const { CategoryTypes } = this.props;
-
-        console.log( (CategoryTypes) );
 
         return (
             <div>
@@ -31,27 +38,14 @@ class FrontEnd extends Component {
                     <div className="clearfix visible-md visible-lg"></div>
 
                 </div>
-                {/*{*/}
-                {/*    CategoryTypes.map(posts => {*/}
-                {/*        return(*/}
-                {/*            <CategoryType nameCategory={'asd'}/>*/}
-                {/*        );*/}
-                {/*    })*/}
-                {/*}*/}
-                {/*{*/}
-                {/*    for(let key in CategoryTypes){*/}
-                {/*     */}
-                {/*        <CategoryType nameCategory={{CategoryTypes[key]}}/>*/}
-                {/*    }*/}
-                {/*}*/}
+                {(() => {
+                    let Post=[];
+                    for(let index in CategoryTypes){
+                        Post.push(<CategoryType key={index} nameCategory={CategoryTypes[`${index}`]}/>);
+                    }
+                    return Post;
+                })()}
 
-
-                {/*{ CategoryTypes.map(name => {*/}
-                {/*    return (<CategoryType nameCategory={'cuong'}/>);*/}
-                {/*}) }*/}
-
-                {/*<CategoryType nameCategory={"fasion"}/>*/}
-                {/*<CategoryType nameCategory={"dragon"}/>*/}
             </div>
         );
     }

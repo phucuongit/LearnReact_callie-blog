@@ -2,8 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c91087b9-e4e1-441d-a135-e288a3a94555" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/authenticate/authen.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/AppliedRoute/AppliedRoute.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ValidatedLoginForm/ValidatedLoginForm.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ValidatedLoginForm/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ValidatedLoginForm/style.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Admin/DashBoard.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Admin/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Article/Article.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Article/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Login/Login.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Login/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Logout/Logout.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CategoryType/CategoryType.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CategoryType/CategoryType.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CategoryType/PostTemplate.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CategoryType/PostTemplate.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Contact/Contact.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Contact/Contact.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/Header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/FrontEnd/FrontEnd.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/FrontEnd/FrontEnd.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reducers/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/home.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +39,8 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -32,6 +54,20 @@
       </list>
     </option>
   </component>
+  <component name="RunManager" selected="JavaScript Debug.blog-post.html">
+    <configuration name="author.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/learn_blog_client/callie/callie/author.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="blog-post.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/learn_blog_client/callie/callie/blog-post.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.blog-post.html" />
+        <item itemvalue="JavaScript Debug.author.html" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -44,7 +80,20 @@
       <updated>1573750913929</updated>
       <workItem from="1573750915117" duration="95000" />
       <workItem from="1574319192786" duration="606000" />
-      <workItem from="1574333278613" duration="2873000" />
+      <workItem from="1574333278613" duration="5068000" />
+      <workItem from="1574354815872" duration="4646000" />
+      <workItem from="1574415241926" duration="291000" />
+      <workItem from="1574415564407" duration="4360000" />
+      <workItem from="1575553337709" duration="1392000" />
+      <workItem from="1575723337788" duration="218000" />
+      <workItem from="1575729084719" duration="206000" />
+      <workItem from="1575776752451" duration="598000" />
+      <workItem from="1575796983650" duration="2297000" />
+      <workItem from="1575817642169" duration="3904000" />
+      <workItem from="1575970354246" duration="18365000" />
+      <workItem from="1576031750759" duration="10145000" />
+      <workItem from="1576055600083" duration="2293000" />
+      <workItem from="1576117304771" duration="18840000" />
     </task>
     <servers />
   </component>

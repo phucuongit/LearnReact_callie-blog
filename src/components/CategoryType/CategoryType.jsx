@@ -5,16 +5,16 @@ class CategoryType extends Component {
     constructor(props){
         super(props);
         const { nameCategory } = this.props;
-        //console.log(this.props);
         this.state = {
-            name: nameCategory,
+            name: nameCategory.post_title,
+            slug:  nameCategory.slug,
         }
 
     }
 
 
     render() {
-        const { name } = this.state;
+        const { name, slug } = this.state;
         return (
             <div className="row">
                 <div className="col-md-12">
@@ -23,9 +23,8 @@ class CategoryType extends Component {
                     </div>
                 </div>
 
-                <PostTemplate/>
-                <PostTemplate/>
-                <PostTemplate/>
+                <PostTemplate name={name} slug={slug}/>
+
 
 
             </div>

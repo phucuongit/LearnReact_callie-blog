@@ -5,9 +5,21 @@ import post_10 from '../../issets/img/post-10.jpg';
 import post_5 from '../../issets/img/post-5.jpg';
 import post_12 from '../../issets/img/post-12.jpg';
 import post_13 from '../../issets/img/post-13.jpg';
-import { BrowserRouter as  Link,NavLink} from 'react-router-dom';
+import { BrowserRouter as  Link, NavLink} from 'react-router-dom';
 class Header extends Component {
+    constructor(props){
+        super(props);
+        //this.handleLogout = this.handleLogout.bind(this);
+
+
+    }
+
+    // handleLogout(){
+    //     this.props.setAuthenticated(false);
+    // }
     render() {
+        const { isAuthenticated, setAuthenticated } = this.props.appProps;
+        // console.log(isAuthenticated);
         return (
 
                 <header id="header">
@@ -33,7 +45,13 @@ class Header extends Component {
                             </div>
 
                             <div className="nav-btns">
-                                <button className="aside-btn"><i className="fa fa-bars"/></button>
+                                {isAuthenticated ? <button className="aside-btn" ><NavLink exact to="/logout" >Logout</NavLink></button> :
+                                        <>
+                                            <button className="aside-btn"><NavLink exact to="/login">Login</NavLink></button>
+                                        </>
+                                }
+
+
                                 <button className="search-btn"><i className="fa fa-search"/></button>
                                 <div id="nav-search">
                                     <form>
@@ -262,9 +280,15 @@ class Header extends Component {
                                         </div>
                                     </div>
                                 </li>
-                                <li><a href="#">Technology</a></li>
-                                <li><a href="#">Health</a></li>
-                                <li><a href="#">Travel</a></li>
+                                <li><NavLink exact activeStyle={{
+                                    backgroundColor : 'white',
+                                    color : 'red'
+                                }} to="/post">Posts Page</NavLink></li>
+                                <li><NavLink exact activeStyle={{
+                                    backgroundColor : 'white',
+                                    color : 'red'
+                                }} to="/contact">Contact Page</NavLink></li>
+
                             </ul>
 
                         </div>

@@ -3,14 +3,7 @@ import React, {Component} from 'react';
 import logo from '../../issets/img/logo-alt.png';
 
 class Footer extends Component {
-    componentDidMount () {
-        const script = document.createElement("script");
 
-        script.src = '../../issets/js/jquery.min.js';
-        script.async = true;
-
-        document.body.appendChild(script);
-    }
     render() {
         return (
             <footer id="footer">

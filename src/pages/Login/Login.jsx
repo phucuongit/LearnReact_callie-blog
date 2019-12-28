@@ -1,21 +1,35 @@
-import React, {Component} from 'react';
+import React, {useEffect, useContext} from 'react';
 import ValidatedLoginForm from '../../components/ValidatedLoginForm';
-import Cookies from 'js-cookie';
-import {Redirect } from 'react-router-dom';
-class Login extends Component {
-    constructor(props){
-        super(props);
+import {authenticate} from '../..//authenticate/authen';
+import Context from '../../Context';
+
+function Login({history}, props) {
+    let { isAuthenticated,setAuthenticated } = useContext(Context);
+
+    useEffect(() => {
+        onload(isAuthenticated);
+    }, [isAuthenticated]);
+
+    function onload(isAuthenticated){
+        if (authenticate() && isAuthenticated) { // nếu vừa có isAuthenticated vừa có cookie thì chuyển trang
+            history.push('/');
+        }else{
+            if (authenticate()) { // nếu không có isAuthenticated nhưng cố cookie thì set lại isAuthenticated:true
+                setAuthenticated(authenticate());
+                history.push('/');
+            }else{
+                setAuthenticated(false);
+            }
+        }
     }
 
-    render() {
+    return (
 
-        var { isAuthenticated, setAuthenticated } = this.props;
-        return (
             <div>
-                <ValidatedLoginForm appProps={{isAuthenticated,setAuthenticated }}{...this.props}/>
+                <ValidatedLoginForm appProps={{isAuthenticated,setAuthenticated }}{...props}/>
             </div>
-        );
-    }
+
+    )
 }
 
 export default (Login);

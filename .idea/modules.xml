@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/WebstormProjects/crawl/.idea/crawl.iml" filepath="$USER_HOME$/WebstormProjects/crawl/.idea/crawl.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/learn_blog_client.iml" filepath="$PROJECT_DIR$/.idea/learn_blog_client.iml" />
     </modules>
   </component>

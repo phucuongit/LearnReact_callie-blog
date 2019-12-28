@@ -9,6 +9,7 @@ class FrontEnd extends Component {
     constructor(props){
         super(props);
     }
+
     componentDidMount(){
         // if(!Cookies.get('access_token')){
         //     this.props.history.push('/login');

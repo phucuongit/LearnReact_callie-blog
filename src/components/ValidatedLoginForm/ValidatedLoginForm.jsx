@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Formik } from "formik";
 import axios from 'axios';
 import * as EmailValidator from "email-validator";
@@ -6,17 +6,16 @@ import * as EmailValidator from "email-validator";
 import Cookies from 'js-cookie';
 import * as Yup from "yup";
 import './style.scss';
-
+import {UserLoginContext} from '../../Context';
 const ValidatedLoginForm = ({appProps, history}) =>{
-    // console.log(appProps);\
+    const {setUserLogin} = useContext(UserLoginContext);
+
     return (
         <div>
-
             <Formik
                 initialValues={{ email: "", password: "" }}
                 onSubmit={(values, { setSubmitting }) => {
                     setTimeout(() => {
-                        console.log("Logging in", values);// send api check user
                         try{
                             axios.post('http://localhost:8000/api/login', values, {
                                 headers: { 'Access-Control-Allow-Origin': "http://localhost:3000/",
@@ -26,7 +25,11 @@ const ValidatedLoginForm = ({appProps, history}) =>{
                                 }
                             }).then(res =>{
                                 const AUTH_TOKEN = res.data.success.token;
+
                                 Cookies.set('access_token', 'Bearer ' + AUTH_TOKEN, {expires: 7});
+                                Cookies.set('user_login', res.data.success.user, {expires: 7 });
+                                setUserLogin(res.data.success.user);
+                                ;
                                 setSubmitting(false);
                                 appProps.setAuthenticated(true);
                                 history.push("/");

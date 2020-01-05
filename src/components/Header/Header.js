@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useContext} from 'react';
 import './header.css';
 import logo from '../../issets/img/logo.png';
 import post_10 from '../../issets/img/post-10.jpg';
@@ -6,19 +6,39 @@ import post_5 from '../../issets/img/post-5.jpg';
 import post_12 from '../../issets/img/post-12.jpg';
 import post_13 from '../../issets/img/post-13.jpg';
 import { BrowserRouter as  Link, NavLink} from 'react-router-dom';
+import {UserLoginContext} from "../../Context";
 class Header extends Component {
     constructor(props){
+
         super(props);
+        this.state = {
+            isAdmin: false,
+        };
+        this.UserLogin = props.UserLogin;
+        if(this.UserLogin !== null) {
+            this.checkAdmin(this.UserLogin.roles);
+        }
         //this.handleLogout = this.handleLogout.bind(this);
 
-
     }
+    checkAdmin(roles){
+            roles.forEach( (role, index) => {
+                if(role.slug === 'admin') {
+                    this.setState( { isAdmin: true});
+                }
+            });
+    }
+
+
 
     // handleLogout(){
     //     this.props.setAuthenticated(false);
     // }
+
     render() {
+
         const { isAuthenticated, setAuthenticated } = this.props.appProps;
+        const { isAdmin } = this.state;
         // console.log(isAuthenticated);
         return (
 
@@ -45,7 +65,14 @@ class Header extends Component {
                             </div>
 
                             <div className="nav-btns">
-                                {isAuthenticated ? <button className="aside-btn" ><NavLink exact to="/logout" >Logout</NavLink></button> :
+                                {isAuthenticated ?
+                                    <>
+                                        {isAdmin && (
+                                            <button className="aside-btn" ><NavLink exact to="/admin" >Admin DashBoard</NavLink></button>
+                                        )}
+                                            <button className="aside-btn" ><NavLink exact to="/logout" >Logout</NavLink></button>
+                                    </>
+                                    :
                                         <>
                                             <button className="aside-btn"><NavLink exact to="/login">Login</NavLink></button>
                                         </>

@@ -9,7 +9,7 @@ import {Editor} from "@tinymce/tinymce-react";
 import './styles.scss';
 import toast from 'toastr';
 import 'toastr/toastr.scss';
-
+import {UserLoginContext} from "../../../../Context";
 
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
@@ -17,19 +17,21 @@ import 'toastr/toastr.scss';
 const AddPost = () => {
     let history = useHistory();
     const [state, dispatch] = useContext(DashBoardContext);
-
+    const {UserLogin, setUserLogin} = useContext(UserLoginContext);
     const [post, setPost] = useState({
         status: 0, // 0 - bản nháp, 1 đã lên lịch , 2 - đã đăng
         display: 0, // 0 - công khai, 1 - được bảo vệ mật khẩu, 2 - riêng tư
         time_public: 0, // 0 - đăng imediately, time - ngày public
         post_title: '',
         post_content: '',
+        user_id: (UserLogin!== null) ? UserLogin.id : null,
         image_thumbnail: null,
         categories: [],
     });
     const [ isEditing, setEdit ] = useState({editStatus: post.status, editDisplay: post.display, editTimePublic: post.time_public });
     let [image , setImage] = useState({uploading: false, images:null});
     let [Category , setCategory] = useState(null);
+
     useEffect(() => {
         onLoad();
     }, []);
@@ -43,6 +45,8 @@ const AddPost = () => {
         }).then(res => {
             setCategory(res.data.success);
         }).catch(e => console.log(e));
+
+
 
     }
     const handleEditorChange = (e) => {

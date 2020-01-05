@@ -23,7 +23,8 @@ import {authenticate} from './authenticate/authen';
 import { Provider } from 'react-redux';
 import Context from './Context';
 import {UserLoginContext} from "./Context";
-
+import DocumentMeta from 'react-document-meta';
+import IndexBlog from './pages/Index/IndexBlog';
 function App ()  {
     const [isAuthenticated, setAuthenticated ] = useState(false);
     const [UserLogin, setUserLogin] = useState( null);
@@ -41,51 +42,33 @@ function App ()  {
         }
     }
 
-    //  console.log(state, dispatch);
     const history = createBrowserHistory();
-    // console.log(isAuthenticated, Cookies.get('access_token'));
-    // console.log(isAuthenticated);
+    const meta = {
+        title: 'Blogger Project',
+        description: 'Dashboard building by React',
+        canonical: 'http://example.com/path/to/page',
+        meta: {
+            charset: 'utf-8',
+            name: {
+                keywords: 'react,meta,document,html,tags'
+            }
+        }
+    };
+    console.log(UserLogin);
     return (
         <StateInspector name="App">
             <BrowserRouter history={history}>
                 <UserLoginContext.Provider value={{UserLogin, setUserLogin}}>
                     <Context.Provider value={{isAuthenticated, setAuthenticated}}>
                         <Provider  store={store}>
-                            { (isAuthenticated && true)
-                                ?   <>
-                                    <AppliedRoute exact path='/admin/1' children={(props) =>  { return  <DashBoard {...props} appProps={{isAuthenticated,setAuthenticated }}/>  }}  />
-                                </>
-                                : <>
-                                    <div className="App">
-                                        <Header appProps={{isAuthenticated,setAuthenticated }}/>
-                                    </div>
-                                    <Route exact path="/">
-                                        <HotPost/>
-                                    </Route>
-                                    <div className="section">
-                                        <div className="container">
-                                            <div className="row">
-                                                <div className="col-md-8">
-                                                    <Switch>
-                                                        <AppliedRoute exact path="/" children={props => {  return isAuthenticated ? <FrontEnd/> : <Redirect to={'/login'}/>   }} appProps={{isAuthenticated,setAuthenticated }} />
-                                                        <AppliedRoute exact path={"/login"} component={Login} />
-                                                        <AppliedRoute exact path={"/logout"} component={LogoutHandler} appProps={{isAuthenticated,setAuthenticated }}/>
-                                                        <AppliedRoute exact path="/post" component={ArticlePost} appProps={{isAuthenticated,setAuthenticated }}/>
-                                                        <AppliedRoute path="/contact" component={Contact} appProps={{isAuthenticated,setAuthenticated }}/>
-                                                        <AppliedRoute path='/test' component={Article} appProps={{isAuthenticated,setAuthenticated }}/>
-                                                        <AppliedRoute exact path='/:slug' children={(props) =>  { return props.match.isExact ? <Article {...props} /> : <NotFound/> }} appProps={{isAuthenticated,setAuthenticated }}/>
-                                                        <Route component={NotFound}/>
-                                                    </Switch>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <Sidebar/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <Footer/>
-                                </>
-                            }
+
+                            <DocumentMeta {...meta}>
+                                <Switch>
+                                    <AppliedRoute path="/admin" children={(props) =>  { return  <DashBoard {...props} appProps={{isAuthenticated,setAuthenticated }}/>  }}  />
+                                    <AppliedRoute path="/" children={(props) =>  { return  <IndexBlog {...props} appProps={{isAuthenticated,setAuthenticated }}/>  }}  />
+                                </Switch>
+                            </DocumentMeta>
+
                         </Provider>
                     </Context.Provider>
                 </UserLoginContext.Provider>

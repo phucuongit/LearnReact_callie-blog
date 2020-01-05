@@ -7,6 +7,9 @@ import Cookies from 'js-cookie';
 import * as Yup from "yup";
 import './style.scss';
 import {UserLoginContext} from '../../Context';
+import toastr from 'toastr';
+import 'toastr/toastr.scss';
+
 const ValidatedLoginForm = ({appProps, history}) =>{
     const {setUserLogin} = useContext(UserLoginContext);
 
@@ -14,7 +17,8 @@ const ValidatedLoginForm = ({appProps, history}) =>{
         <div>
             <Formik
                 initialValues={{ email: "", password: "" }}
-                onSubmit={(values, { setSubmitting }) => {
+                onSubmit={(values, { setSubmitting ,setStatus, resetForm}) => {
+
                     setTimeout(() => {
                         try{
                             axios.post('http://localhost:8000/api/login', values, {
@@ -24,20 +28,25 @@ const ValidatedLoginForm = ({appProps, history}) =>{
                                     'Access-Control-Allow-Credentials': 'true',
                                 }
                             }).then(res =>{
+                                toastr.success('You login successfully', {closeDuration: 300});
                                 const AUTH_TOKEN = res.data.success.token;
-
                                 Cookies.set('access_token', 'Bearer ' + AUTH_TOKEN, {expires: 7});
                                 Cookies.set('user_login', res.data.success.user, {expires: 7 });
                                 setUserLogin(res.data.success.user);
-                                ;
                                 setSubmitting(false);
+                                setStatus(true);
                                 appProps.setAuthenticated(true);
                                 history.push("/");
+
                             }).catch((error)=>{
-                                console.log(error);
+                                toastr.error('Password or Email incorrect', 'Login fails', {closeDuration: 300, closeButton: true});
+                                resetForm({});
+                                setStatus(false);
                             });
                         }catch(errors){
-                            console.log(errors);
+                            toastr.error('Password or Email incorrect', 'Login fails', {closeDuration: 300, closeButton: true});
+                            resetForm({});
+                            setStatus(false);
                         }
                     }, 500);
                 }}

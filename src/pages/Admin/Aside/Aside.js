@@ -33,7 +33,7 @@ const Aside = () => {
                         data-accordion="false">
 
                         <li className="nav-item has-treeview menu-open">
-                            <Link to={'/admin/1'} className="nav-link active">
+                            <Link to={'/admin'} className="nav-link active">
                                 <i className="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard

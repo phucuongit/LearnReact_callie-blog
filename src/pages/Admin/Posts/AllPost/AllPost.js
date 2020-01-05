@@ -8,6 +8,8 @@ import {getPostSuccess, getPostError, getPostFetching, removePost} from "../../.
 import {FETCHING, SUCCESS} from "../../../../action/actionTypes";
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 import {GET_POST_FETCHING, GET_POST_SUCCESS} from "../../../../action/postActionTypes";
+import config from '../../../../api/config';
+import './styles.scss';
 
 const AllPost = () => {
     const [ state, dispatch ] = useContext(DashBoardContext);
@@ -19,7 +21,7 @@ const AllPost = () => {
     async function onLoad(){
         dispatch(getPostFetching());
         try {
-            const response = await axios({ method: 'GET', url: 'http://localhost:8000/api/posts', headers: {Authorization: Cookies.get('access_token')} });
+            const response = await config({ method: 'GET', url: '/posts' });
             dispatch(getPostSuccess(response));
         } catch (e) {
             dispatch(getPostError(e));
@@ -28,10 +30,16 @@ const AllPost = () => {
 
     const RemovePost = (id) => e => {
 
-        dispatch(removePost(id));
+
         axios.delete(`http://localhost:8000/api/posts/${id}`, {headers: {Authorization: Cookies.get('access_token')}})
-            .then(res => alert("This post is removed"))
-            .catch(e => {throw e});
+            .then(res => {
+                dispatch(removePost(id));
+                alert("This post is removed");
+            })
+            .catch(e => {
+                alert("You don't have this permission");
+                throw e;
+            });
     }
     return (
         <div className="content-wrapper">
@@ -84,10 +92,11 @@ const AllPost = () => {
                                     <th>Thumbnail</th>
                                     <th>Tiêu đề</th>
                                     <th>Tác giả</th>
-                                    <th>Chuyên mục</th>
+                                    <th style={{"width": "115px"}}>Chuyên mục</th>
                                     <th>Thẻ</th>
                                     <th>Bình luận</th>
                                     <th>Thời gian</th>
+                                    <th>Trạng thái</th>
                                     <th>Chỉnh sửa</th>
                                 </tr>
 
@@ -113,7 +122,10 @@ const AllPost = () => {
                                                     <td>{post.id}</td>
                                                     {post.photo_id !== null ?
                                                         (
-                                                            <img src={'http://localhost:8000/images/' + post.photo.photo_name} className={'img-fluid'}/>
+                                                            <td>
+                                                                <img src={'http://localhost:8000/images/' + post.photo.photo_name} className={'img-fluid img--custom'}/>
+                                                            </td>
+
                                                         ) :
                                                         <td>No image</td>
                                                     }
@@ -121,19 +133,33 @@ const AllPost = () => {
                                                         <Link to={`/admin/posts/${post.id}`}>
                                                             {post.post_title}
                                                         </Link>
-
                                                     </td>
-                                                    <td>{post.updated_at}</td>
-                                                    <td><span className="tag tag-success">{post.slug}</span></td>
-                                                    <td>{post.post_content}</td>
+                                                    <td>{post.NameAuthor}</td>
+                                                    <td><span className="tag tag-success">{post.categories.map( (category, index) => {
+                                                        return ( <span key={index}>
+                                                                <a style={{'color': 'red'}} href={'#'}>{category.category_name}</a>
+
+                                                                {index !== post.categories.length - 1  ? ' , ' : '' }
+                                                                </span>
+                                                                )
+                                                    })}
+
+                                                    </span></td>
+                                                    <td>chưa có dữ liệu</td>
                                                     <td>
                                                         <div >
-                                                            {ReactHtmlParser(post.post_content)}
+                                                            {/*{ReactHtmlParser(post.post_content)}*/}
+                                                            Chưa có dữ liệu
                                                         </div>
 
                                                     </td>
+                                                    <td> {post.created_at}</td>
+
                                                     <td>
-                                                        {post.created_at}</td>
+                                                        {post.status === 0 && ('Bản nháp') }
+                                                        {post.status === 1 && ('Đã lên lịch') }
+                                                        {post.status === 2 && ('Đã đăng') }
+                                                    </td>
                                                     <td>
                                                         <Link className={'btn btn-warning'} to={`/admin/posts/${post.id}`}>
                                                             Sửa

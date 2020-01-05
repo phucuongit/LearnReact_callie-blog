@@ -23,6 +23,7 @@
     "react-bootstrap": "^1.0.0-beta.16",
     "react-countup": "^4.3.1",
     "react-css-modules": "^4.7.11",
+    "react-document-meta": "^3.0.0-beta.2",
     "react-dom": "^16.12.0",
     "react-html-converter": "^0.3.2",
     "react-html-parser": "^2.0.2",

@@ -21,11 +21,15 @@ import {DashBoardContext, CateogryContext} from '../../Context';
 import AddPost from './Posts/AddPost/AddPost';
 import Categories from './Categories/Categories';
 import {CategoriesReducerBo, initial} from "../../reducers/CategoriesReducer(bo)";
+import toastr from 'toastr';
+import 'toastr/toastr.scss';
+import {Setting} from './Setting/Setting';
 
 const DashBoard =  ({history})  => {
     let { isAuthenticated,setAuthenticated } = useContext(Context);
     const useUserState = useReducer(reducer, initialState);
     const {UserLogin, setUserLogin} = useContext(UserLoginContext);
+
 
     useEffect(() => {
         onload();
@@ -34,47 +38,77 @@ const DashBoard =  ({history})  => {
     function onload(){
         if(authenticate() && isAuthenticated){
             setUserLogin(JSON.parse(Cookies.get('user_login')));
-            history.push('/admin/1');
+            if(UserLogin !== null){
+                if(isAdmin(UserLogin.roles)){ // check phải admin không
+                    toastr.success('Welcome to Admin DashBoard', {closeButton: true});
+                }else{
+                    history.push('/');
+                    toastr.error('You don\'t have admin permission', {closeButton: true});
+
+                }
+
+            }
+
         }else{
             if(authenticate()){
                 setAuthenticated(true);
                 setUserLogin(JSON.parse(Cookies.get('user_login')));
-                history.push('/admin/1');
+                if(UserLogin !== null){
+                    toastr.success('Welcome to Admin DashBoard', {closeButton: true});
+                    if(isAdmin(UserLogin.roles)){ // check phải admin không
+                        toastr.success('Welcome to Admin DashBoard', {closeButton: true});
+                    }else{
+                        history.push('/');
+                        toastr.error('You don\'t have admin permission', {closeButton: true});
+
+                    }
+                };
             }else{
                 history.push('/login');
             }
         }
     }
+    function isAdmin(roles){
+        let result=false;
+        roles.forEach( (role, index) => {
+            if(role.slug === 'admin') {
+                result = true;
+            }
+        });
+        return result;
+    }
 
     return (
 
         <DashBoardContext.Provider value={useUserState}>
+            {isAuthenticated && (
+                <div className={"wrapper__dashboard"}>
+                    <div className="wrapper">
+                        <Header history={history}/>
+                        <Aside/>
+                        <Switch>
 
-            <div className={"wrapper__dashboard"}>
-                <div className="wrapper">
-                    <Header history={history}/>
-                    <Aside/>
-                    <Switch>
+                            <Route exact path={'/admin'} component={IndexDashBoard}/>
 
-                        <Route exact path={'/admin/users'} component={IndexUser} history={history}/>
-                        <Route exact path={'/admin/add-user'} component={AddUser} history={history}/>
+                            <Route exact path={'/admin/users'} component={IndexUser} history={history}/>
+                            <Route exact path={'/admin/add-user'} component={AddUser} history={history}/>
 
-                        <Route exact path={'/admin/all-posts'} component={AllPost} history={history}/>
-                        <Route exact path={'/admin/posts/:id'} component={EditPost} history={history}/>
-                        <Route exact path={'/admin/add-posts'} component={AddPost} history={history}/>
+                            <Route exact path={'/admin/all-posts'} component={AllPost} history={history}/>
+                            <Route path={'/admin/posts/:id'} component={EditPost} history={history}/>
+                            <Route exact path={'/admin/add-posts'} component={AddPost} history={history}/>
 
-                        <Route exact path={'/admin/categories'} component={Categories} history={history}/>
-                        <Route exact path={'/admin/1'} component={IndexDashBoard}/>
+                            <Route exact path={'/admin/categories'} component={Categories} history={history}/>
 
-                    </Switch>
+                            <Route exact path={'/admin/setting'} component={Setting} />
 
-                    {/*<aside className="control-sidebar control-sidebar-dark"/>*/}
-                    <Footer/>
+
+                        </Switch>
+
+                        <Footer/>
+                    </div>
                 </div>
-            </div>
-
+            )}
         </DashBoardContext.Provider>
-
 
     );
 

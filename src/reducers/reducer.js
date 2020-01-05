@@ -12,7 +12,8 @@ import {
     GET_ALL_CATEGORY_ERROR,
     GET_ALL_CATEGORY_FETCHING,
     GET_ALL_CATEGORY_SUCCESS,
-    REMOVE_CATEGORY_BY_ID
+    REMOVE_CATEGORY_BY_ID,
+    EDIT_CATEGORY
 } from "../action/CategoryActionTypes";
 
 export const initialState = {
@@ -165,6 +166,17 @@ export const reducer = (state = initialState, { type, response, id } = {}) => {
                 ...state,
                 status: GET_ALL_CATEGORY_SUCCESS,
                 response: [...state.response, response]
+            }
+        case EDIT_CATEGORY:
+            state.response.forEach((category,i) => {
+                if(category.id === response.id){
+                    category.category_name = response.name;
+                    category.category_slug = response.slug;
+                }
+            });
+            return {
+                ...state,
+                status: GET_ALL_CATEGORY_SUCCESS,
             }
         default:
             return { ...state };

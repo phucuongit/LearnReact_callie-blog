@@ -51,9 +51,9 @@ class Header extends Component {
 
                             <ul className="nav-social">
                                 <li><a href="#"><i className="fa fa-facebook"/></a></li>
-                                <li><a href="#"><i className="fa fa-twitter"/>></a></li>
-                                <li><a href="#"><i className="fa fa-google-plus"/>></a></li>
-                                <li><a href="#"><i className="fa fa-instagram"/>></a></li>
+                                <li><a href="#"><i className="fa fa-twitter"/></a></li>
+                                <li><a href="#"><i className="fa fa-google-plus"/></a></li>
+                                <li><a href="#"><i className="fa fa-instagram"/></a></li>
                             </ul>
 
                             <div className="nav-logo">

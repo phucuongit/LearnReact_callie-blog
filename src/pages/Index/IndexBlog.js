@@ -15,6 +15,9 @@ import Footer from "../../components/Footer";
 import Context, {UserLoginContext} from "../../Context";
 import {useReducer} from "reinspect";
 import reducer, {initialState} from "../../reducers/reducer";
+import 'font-awesome/css/font-awesome.min.css';
+import Categories from '../Categories/Categories';
+import PageHeaderBG from '../../components/PageHeaderBG/PageHeaderBG';
 
 const IndexBlog = () => {
     let { isAuthenticated,setAuthenticated } = useContext(Context);
@@ -28,19 +31,23 @@ const IndexBlog = () => {
             <Route exact path="/">
                 <HotPost/>
             </Route>
+            <Route exact path="/categories/:slug">
+                <PageHeaderBG/>
+            </Route>
             <div className="section">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8">
                             <Switch>
-                                <AppliedRoute exact path="/" children={props => {  return isAuthenticated ? <FrontEnd/> : <Redirect to={'/login'}/>   }} appProps={{isAuthenticated,setAuthenticated }} />
+                                <AppliedRoute exact path="/" component={FrontEnd} appProps={{isAuthenticated,setAuthenticated }} />
                                 <AppliedRoute exact path="/login" component={Login} />
                                 <AppliedRoute exact path="/logout" component={LogoutHandler} appProps={{isAuthenticated,setAuthenticated }}/>
                                 <AppliedRoute exact path="/post" component={ArticlePost} appProps={{isAuthenticated,setAuthenticated }}/>
                                 <AppliedRoute exact path="/contact" component={Contact} appProps={{isAuthenticated,setAuthenticated }}/>
-                                <AppliedRoute exact path='/test' component={Article} appProps={{isAuthenticated,setAuthenticated }}/>
-                                <AppliedRoute path='/:slug' children={(props) =>  { return <Article {...props} />  }} appProps={{isAuthenticated,setAuthenticated }}/>
-                                {/*<Route component={NotFound}/>*/}
+                                <AppliedRoute exact path="/categories/:slug" component={Categories} appProps={{isAuthenticated,setAuthenticated }}/>
+                                <Route path="/404" component={NotFound}/>
+                                <AppliedRoute exact strict path='/:slug' component={Article} appProps={{isAuthenticated,setAuthenticated }}/>
+
                                 {/*return props.match.isExact ? <Article {...props} /> : <NotFound/>*/}
                             </Switch>
                         </div>

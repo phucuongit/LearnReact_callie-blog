@@ -1,0 +1,6 @@
+export const COMMENT_FETCHING = 'COMMENT_FETCHING';
+export const COMMENT_SUCCESS = 'COMMENT_SUCCESS';
+export const COMMENT_ERROR = 'COMMENT_ERROR';
+
+export const COMMENT_ADD = 'COMMENT_ADD';
+export const REPLY_ADD = 'REPLY_ADD';

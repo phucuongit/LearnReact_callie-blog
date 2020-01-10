@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$USER_HOME$/WebstormProjects/crawl/.idea/crawl.iml" filepath="$USER_HOME$/WebstormProjects/crawl/.idea/crawl.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/learn_blog_client.iml" filepath="$PROJECT_DIR$/.idea/learn_blog_client.iml" />
+      <module fileurl="file://$USER_HOME$/Desktop/schedule/.idea/schedule.iml" filepath="$USER_HOME$/Desktop/schedule/.idea/schedule.iml" />
     </modules>
   </component>
 </project>

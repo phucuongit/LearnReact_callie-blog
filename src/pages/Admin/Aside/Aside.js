@@ -55,38 +55,33 @@ const Aside = () => {
 
                         </li>
 
-                        <li className="nav-item has-treeview">
+                        <li className="nav-item">
                             <Link to={'/admin/all-posts'}  className="nav-link">
                                 <i className="nav-icon far fa-image"></i>
                                 <p>
                                     All Posts
-                                    <i className="fas fa-angle-left right"></i>
                                 </p>
                             </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to={'/admin/add-posts'}  className="nav-link">
+                                <i className="nav-icon fas fa-calendar-alt"></i>
+                                <p>
+                                    Add Post
+                                    <span className="badge badge-info right">2</span>
 
-                            <ul className="nav nav-treeview">
-                                <li className="nav-item">
-                                    <Link to={'/admin/add-posts'}  className="nav-link">
-                                        <i className="nav-icon fas fa-calendar-alt"></i>
-                                        <p>
-                                            Add Post
-                                            <span className="badge badge-info right">2</span>
+                                </p>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to={'/admin/categories'}  className="nav-link">
+                                <i className="nav-icon fas fa-calendar-alt"></i>
+                                <p>
+                                    Categories
+                                    <span className="badge badge-info right">2</span>
 
-                                        </p>
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to={'/admin/categories'}  className="nav-link">
-                                        <i className="nav-icon fas fa-calendar-alt"></i>
-                                        <p>
-                                            Categories
-                                            <span className="badge badge-info right">2</span>
-
-                                        </p>
-                                    </Link>
-                                </li>
-
-                            </ul>
+                                </p>
+                            </Link>
                         </li>
 
                         <li className="nav-header">SETTING</li>

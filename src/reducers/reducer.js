@@ -1,4 +1,4 @@
-import { FETCHING , SUCCESS, ERROR , DELETE_USER, ADD_USER, EDIT_USER, UPDATE_USER_SUCCESS } from '../action/actionTypes';
+import { FETCHING , SUCCESS, ERROR , DELETE_USER, ADD_USER, EDIT_USER } from '../action/actionTypes';
 import {
     GET_POST_BYID_ERROR,
     GET_POST_BYID_FETCHING,
@@ -7,6 +7,7 @@ import {
     GET_POST_SUCCESS,
     REMOVE_POST_SUCCESS
 } from "../action/postActionTypes";
+import {UPDATE_USER_SUCCESS} from '../action/userActionTypes';
 import {
     ADD_CATEGORY,
     GET_ALL_CATEGORY_ERROR,
@@ -22,7 +23,6 @@ export const initialState = {
 };
 
 export const reducer = (state = initialState, { type, response, id } = {}) => {
-
     switch (type) {
         case FETCHING:
             return {
@@ -79,12 +79,11 @@ export const reducer = (state = initialState, { type, response, id } = {}) => {
                 status: SUCCESS,
             };
         case UPDATE_USER_SUCCESS:
-
             state.response.data.success.forEach((element , index) => {
 
                 if(element.id === response.id){
-                    element.name = response.user.name;
-                    element.roles = parseInt(response.user.roles);
+                    element.name = response.name;
+                    element.roles = [{slug: response.roles}];
                 }
             });
             // state.response.data.success = state.response.data.success.filter((user) => user.id !== response.id);
@@ -159,6 +158,7 @@ export const reducer = (state = initialState, { type, response, id } = {}) => {
                 id: (state.response !== null) ? state.response[state.response.length - 1 ].id + 1 : 1,
                 category_name: response.name,
                 category_slug: response.slug,
+                count_post: 0,
 
             }
 

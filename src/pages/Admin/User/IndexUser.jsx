@@ -8,13 +8,15 @@ import Cookies from 'js-cookie';
 import {FETCHING, SUCCESS, DELETE_USER , ADD_USER, EDIT_USER} from "../../../action/actionTypes";
 import axios from 'axios';
 import {useState} from 'reinspect';
+import toastr from 'toastr';
 import reducer, {initialState} from "../../../reducers/reducer";
-import {updateUser} from '../../../action/userActionTypes';
+import {updateUser} from '../../../action/userActionCreators';
+import apiSent from '../../../api/config';
 
 const IndexUser = ({history}) => {
     let { isAuthenticated,setAuthenticated } = useContext(Context);
     const [ isEditing, setEditing ] = useState({edit: false, id: ''});
-    const [ user , setUser ] = useState({name: '', roles: 0 });
+    const [ user , setUser ] = useState({name: '', roles: '' });
     useEffect(() => {
         onload();
     }, [isAuthenticated]);
@@ -34,12 +36,14 @@ const IndexUser = ({history}) => {
 
     const [ state, dispatch ] = useContext(DashBoardContext);
 
-    const [{status , response}, makeRequest] = useApiRequest('http://localhost:8000/api/users', {verb: 'POST', params:  {Authorization: Cookies.get('access_token')} });
+    const [{status , response}, makeRequest] = useApiRequest('http://localhost:8000/api/users', {verb: 'GET', params:  {Authorization: Cookies.get('access_token')} });
 
     var users = [];
     try{
         if(response.data.success.length > 0 ){
             users = response.data.success;
+        }else{
+            toastr.error(response.data.error, 'Error Get ALL User', {closeButton: true, closeDuration: 300});
         }
     }catch(e){
 
@@ -53,18 +57,34 @@ const IndexUser = ({history}) => {
 
         }
     ;
+    let [roles, setRoles ] = useState(null);
+
     const editUser = (id) => e => {
         setEditing({...isEditing,
             edit: !isEditing.edit,
             id: id
         });
+        apiSent.get('/roles').then(res=> {
+            setRoles(res.data.success);
+        }).catch(e => {
+           toastr.error(e, 'Error Get Roles');
+        });
+
     }
     const saveUser = (id, user) => e => {
         setEditing({...isEditing,
             edit: !isEditing.edit,
             id: id
         });
-        updateUser(id,user,dispatch);
+        dispatch(updateUser({id,...user}));
+        toastr.success('This user is successfully edited', 'Edit User');
+        apiSent({
+            url: `/users/${id}`,
+            method: 'PUT',
+            data: {id,...user},
+        }).catch(e => {
+            toastr.error(e, 'Error Get Roles');
+        });
     }
     const handleChangeState = (e, preUser) => {
         const {name , value } = e.target;
@@ -82,6 +102,7 @@ const IndexUser = ({history}) => {
         }
 
     }
+
     return (
 
         <div className="content-wrapper">
@@ -204,17 +225,7 @@ const IndexUser = ({history}) => {
                                                             <li className="list-inline-item">
                                                                 <img alt="Avatar" className="table-avatar" src="../../dist/img/avatar.png"/>
                                                             </li>
-                                                            {/*<li className="list-inline-item">*/}
-                                                            {/*    <img alt="Avatar" className="table-avatar" src="../../dist/img/avatar2.png"/>*/}
-                                                            {/*</li>*/}
-                                                            {/*<li className="list-inline-item">*/}
-                                                            {/*    <img alt="Avatar" className="table-avatar" src="../../dist/img/avatar3.png"/>*/}
 
-                                                            {/*</li>*/}
-                                                            {/*<li className="list-inline-item">*/}
-                                                            {/*    <img alt="Avatar" className="table-avatar"*/}
-                                                            {/*         src="../../dist/img/avatar04.png"/>*/}
-                                                            {/*</li>*/}
                                                         </ul>
                                                     </td>
                                                     <td>
@@ -242,17 +253,18 @@ const IndexUser = ({history}) => {
                                                         { (isEditing.edit &&  isEditing.id === currentVal.id )  ?
                                                             (
                                                                 <select name='roles' className={"form-control custom-select"}
-                                                                        defaultValue={currentVal.roles}
                                                                         onChange={(e) => handleChangeState(e, currentVal)}
                                                                 >
-                                                                    <option defaultValue={0} disabled>Select one</option>
-                                                                    <option value={1}>Admin</option>
-                                                                    <option value={0}>User</option>
+                                                                    <option defaultValue={''} disabled>Select one</option>
+                                                                    { roles !== null &&
+                                                                        roles.map( (role, index) => (<option key={index} value={role}>{role}</option>))
+                                                                    }
                                                                 </select>
                                                             )
                                                             : (
-                                                                <span className="badge badge-success"> {currentVal.roles === 1 ? 'Admin' : 'User' }</span>
+                                                                currentVal.roles.map((role, index) => ( <span key={index} className="badge badge-success"> {role.slug }</span>))
                                                             )
+
                                                         }
                                                     </td>
                                                     <td className="project-actions text-right">

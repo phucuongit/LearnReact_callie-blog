@@ -39,6 +39,7 @@ const DashBoard =  ({history})  => {
         if(authenticate() && isAuthenticated){
             setUserLogin(JSON.parse(Cookies.get('user_login')));
             if(UserLogin !== null){
+
                 if(isAdmin(UserLogin.roles)){ // check phải admin không
                     toastr.success('Welcome to Admin DashBoard', {closeButton: true});
                 }else{

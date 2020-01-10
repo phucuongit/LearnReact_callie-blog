@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import Context from "../../Context";
 import {DashBoardContext} from "../../Context";
 import {addCategory} from '../../action/CategoryActionCreators';
-
+import toastr from 'toastr';
 
 const ValidatedAddCategory = ({history}) => {
     const [ state, dispatch ] = useContext(DashBoardContext);
@@ -18,7 +18,7 @@ const ValidatedAddCategory = ({history}) => {
 
             <Formik initialValues={{name: '', slug: ''}}
                     enableReinitialize={true}
-                    onSubmit={(values, {setSubmitting}) => {
+                    onSubmit={(values, {setSubmitting, resetForm, setStatus}) => {
                         console.log(values);
                         setTimeout(()=> {
                             //xử lý add user
@@ -26,16 +26,15 @@ const ValidatedAddCategory = ({history}) => {
                                 axios.post('http://localhost:8000/api/categories/add', values, {headers: {Authorization: Cookies.get('access_token')}})
                                     .then(res => {
                                         dispatch(addCategory(values));
-                                        alert('Add success');
-                                        setSubmitting(true);
+                                        toastr.success('You add successfully category');
+                                        resetForm({});
                                     }).catch((error)=>{
-                                    console.log(error);
-
+                                        toastr.error(error, 'Error Add Category');
                                 });
                             }catch(e){
-                                console.log(e);
+                                toastr.error(e, 'Error Add Category');
                             }
-                        }, 500);
+                        }, 200);
                     }}
                     validationSchema={Yup.object().shape({
                         name: Yup.string()

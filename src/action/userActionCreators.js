@@ -1,3 +1,3 @@
-import {UPDATE_USER_SUCCESS} from './actionTypes';
+import {UPDATE_USER_SUCCESS} from './userActionTypes';
 
-export const updateUserSuccess = (response) => ({type: UPDATE_USER_SUCCESS , response});
+export const updateUser = (response) => ({type: UPDATE_USER_SUCCESS, response});

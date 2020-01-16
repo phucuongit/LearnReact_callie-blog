@@ -1,4 +1,4 @@
-import React,  {useContext,useMemo, useEffect} from 'react';
+import React, {useContext, useMemo, useEffect} from 'react';
 import useApiRequest from "../../../../hooks";
 import Cookies from "js-cookie";
 import {DashBoardContext} from "../../../../Context";
@@ -6,22 +6,25 @@ import {Link} from 'react-router-dom';
 import axios from "axios";
 import {getPostSuccess, getPostError, getPostFetching, removePost} from "../../../../action/postActionCreators";
 import {FETCHING, SUCCESS} from "../../../../action/actionTypes";
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser';
 import {GET_POST_FETCHING, GET_POST_SUCCESS} from "../../../../action/postActionTypes";
-import config from '../../../../api/config';
+import config, {BASE_URL} from '../../../../api/config';
 import './styles.scss';
 
 const AllPost = () => {
-    const [ state, dispatch ] = useContext(DashBoardContext);
+
+
     useEffect(() => {
         onLoad();
 
     }, []);
+    let {useUserState} = useContext(DashBoardContext);
+    const [state, dispatch] = useUserState;
 
-    async function onLoad(){
+    async function onLoad() {
         dispatch(getPostFetching());
         try {
-            const response = await config({ method: 'GET', url: '/posts' });
+            const response = await config({method: 'GET', url: '/posts'});
             dispatch(getPostSuccess(response));
         } catch (e) {
             dispatch(getPostError(e));
@@ -29,8 +32,6 @@ const AllPost = () => {
     }
 
     const RemovePost = (id) => e => {
-
-
         axios.delete(`http://localhost:8000/api/posts/${id}`, {headers: {Authorization: Cookies.get('access_token')}})
             .then(res => {
                 dispatch(removePost(id));
@@ -116,14 +117,15 @@ const AllPost = () => {
                                 }
                                 {
                                     state.status === GET_POST_SUCCESS && (
-                                        state.response.map((post,index) => {
+                                        state.response.map((post, index) => {
                                             return (
                                                 <tr key={index}>
                                                     <td>{post.id}</td>
-                                                    {post.photo_id !== null ?
+                                                    {post.image !== null ?
                                                         (
                                                             <td>
-                                                                <img src={'http://localhost:8000/images/' + post.photo.photo_name} className={'img-fluid img--custom'}/>
+                                                                <img src={BASE_URL + post.image.url}
+                                                                     className={'img-fluid img--custom'}/>
                                                             </td>
 
                                                         ) :
@@ -135,19 +137,21 @@ const AllPost = () => {
                                                         </Link>
                                                     </td>
                                                     <td>{post.NameAuthor}</td>
-                                                    <td><span className="tag tag-success">{post.categories.map( (category, index) => {
-                                                        return ( <span key={index}>
-                                                                <a style={{'color': 'red'}} href={'#'}>{category.category_name}</a>
+                                                    <td><span
+                                                        className="tag tag-success">{post.categories.map((category, index) => {
+                                                        return (<span key={index}>
+                                                                <a style={{'color': 'red'}}
+                                                                   href={'#'}>{category.category_name}</a>
 
-                                                                {index !== post.categories.length - 1  ? ' , ' : '' }
+                                                                {index !== post.categories.length - 1 ? ' , ' : ''}
                                                                 </span>
-                                                                )
+                                                        )
                                                     })}
 
                                                     </span></td>
                                                     <td>chưa có dữ liệu</td>
                                                     <td>
-                                                        <div >
+                                                        <div>
                                                             {/*{ReactHtmlParser(post.post_content)}*/}
                                                             Chưa có dữ liệu
                                                         </div>
@@ -156,15 +160,17 @@ const AllPost = () => {
                                                     <td> {post.created_at}</td>
 
                                                     <td>
-                                                        {post.status === 0 && ('Bản nháp') }
-                                                        {post.status === 1 && ('Đã lên lịch') }
-                                                        {post.status === 2 && ('Đã đăng') }
+                                                        {post.status === 0 && ('Bản nháp')}
+                                                        {post.status === 1 && ('Đã lên lịch')}
+                                                        {post.status === 2 && ('Đã đăng')}
                                                     </td>
                                                     <td>
-                                                        <Link className={'btn btn-warning'} to={`/admin/posts/${post.id}`}>
+                                                        <Link className={'btn btn-warning'}
+                                                              to={`/admin/posts/${post.id}`}>
                                                             Sửa
                                                         </Link>
-                                                        <a className={'btn btn-danger'} onClick={RemovePost(post.id)}>Xóa</a>
+                                                        <a className={'btn btn-danger'}
+                                                           onClick={RemovePost(post.id)}>Xóa</a>
                                                     </td>
                                                 </tr>
                                             )

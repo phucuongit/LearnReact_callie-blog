@@ -34,7 +34,8 @@ const IndexUser = ({history}) => {
         }
     }
 
-    const [ state, dispatch ] = useContext(DashBoardContext);
+    let {useUserState} = useContext(DashBoardContext);
+    const [ state, dispatch ] = useUserState;
 
     const [{status , response}, makeRequest] = useApiRequest('http://localhost:8000/api/users', {verb: 'GET', params:  {Authorization: Cookies.get('access_token')} });
 

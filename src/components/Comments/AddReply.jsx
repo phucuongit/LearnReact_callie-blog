@@ -11,6 +11,7 @@ import {CommentContext} from "../../Context";
 import {addReply} from '../../action/CommentActionCreators';
 
 const AddReply = ({comment_id, post_id}) => {
+
     let [comments, dispatch] = useContext(CommentContext);
     const history = useHistory();
     return (

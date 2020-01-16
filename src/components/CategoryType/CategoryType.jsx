@@ -5,8 +5,6 @@ import sentApi from '../../api/config';
 import {useState} from "reinspect";
 
 const CategoryType = ({categoryProps}) => {
-    // let {slug} = useParams();
-
     let [posts, setPosts] = useState(null);
     useEffect(() => {
         onLoad();
@@ -16,7 +14,6 @@ const CategoryType = ({categoryProps}) => {
             setPosts(res.data.success);
         })
     }
-    console.log(posts);
     return (
 
         <div className="row">
@@ -28,14 +25,12 @@ const CategoryType = ({categoryProps}) => {
                         </div>
                     </div>
                     {posts.map((ePost, index) => {
-                        return (
-                                <PostTemplate key={index}  name={ePost.post_title} postsProps={ePost}/>
-                        )
+                        if(index < 3){
+                            return  <PostTemplate key={index}  name={ePost.post_title} postsProps={ePost}/>;
+                        }
                     })}
                 </>
             )}
-
-
         </div>
     );
 

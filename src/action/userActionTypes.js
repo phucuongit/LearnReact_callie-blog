@@ -1,1 +1,4 @@
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+
+export const USER_FETCHING = 'USER_FETCHING';
+export const USER_SUCCESS = 'USER_SUCCESS';

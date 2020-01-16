@@ -10,10 +10,13 @@ import Cookies from "js-cookie";
 import apiSentDate from '../../../api/config';
 import ValidatedAddUser from "../../../components/ValidatedAddUser/ValidatedAddUser";
 import ValidatedAddCategory from "../../../components/ValidatedAddCategory/ValidatedAddCategory";
+import toastr from 'toastr';
 
 const Categories = () => {
 
-    const [ state, dispatch ] = useContext(DashBoardContext);
+    let {useUserState} = useContext(DashBoardContext);
+    const [ state, dispatch ] = useUserState;
+    
     const [ newCategory, setCategory ] = useState({name: '', slug: ''});
     const [ isEditing, setEditCategory ] = useState({edit: false, id: ''});
     useEffect(() => {
@@ -44,7 +47,7 @@ const Categories = () => {
                 Authorization: Cookies.get('access_token'),
             }
         }).then(res => {
-            alert('This category is deleted');
+            toastr.success('This category is successfully removed', 'Success', {closeDuration: 500});
         }).catch(e => {
             console.log(e);
         })
@@ -81,7 +84,7 @@ const Categories = () => {
             data: newCategory,
         }).then(res => {
             dispatch(editCategory({...newCategory, id: id}));
-            alert(res.data.success);
+            toastr.success('This category is successfully saved', 'Success', {closeDuration: 500});
         }).catch(e => {
             console.log(e);
         });
@@ -176,7 +179,7 @@ const Categories = () => {
                                                                 }
                                                             </td>
 
-                                                            <td><span>{category.count_post}</span></td>
+                                                            <td><span>{category.posts_count}</span></td>
                                                             <td>
                                                                 {isEditing.edit && isEditing.id === category.id ?
                                                                     ( <a className="btn btn-warning" onClick={(e) => handleSaveCategory(category.id, e)}>Save</a>)

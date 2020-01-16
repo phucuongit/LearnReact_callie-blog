@@ -7,3 +7,4 @@ export default axios.create({
         Authorization: Cookies.get('access_token'),
     }
 })
+export const BASE_URL = 'http://localhost:8000/';

@@ -9,16 +9,19 @@ import PostRow from "../../components/PostRow/PostRow";
 const FrontEnd = () => {
     let [categories, setCategories] = useState(null);
     let [posts, setPost] = useState(null);
+    let [rentPost, setRecentPost] = useState(null);
     let [offset, setOfset] = useState(5);
     let limit = 5;
     useEffect(() => {
-        console.log('useeffect');
         onLoad();
-
     }, []);
 
     function onLoad() {
-        console.log('onload');
+
+        apiSent.get('/posts/filter?recentPost=1&&limit=4')
+            .then(res => setRecentPost(res.data.success))
+            .catch(e => console.log(e));
+
         apiSent.get('/categories')
             .then(res => setCategories(res.data.success))
             .catch(e => console.log(e));
@@ -41,7 +44,6 @@ const FrontEnd = () => {
             })
             .catch(e => console.log(e));
     }
-    console.log(posts);
     return (
         <div>
             <div className="row">
@@ -50,18 +52,22 @@ const FrontEnd = () => {
                         <h2 className="title">Recent posts</h2>
                     </div>
                 </div>
+                { rentPost !== null && (
+                    rentPost.map((posts, index) => {
+                        return  <RecentPost key={index} rentPost={posts}/>
+                    })
 
-                <RecentPost/>
-                <RecentPost/>
-                <RecentPost/>
-                <RecentPost/>
+                )}
 
                 <div className="clearfix visible-md visible-lg"></div>
 
             </div>
             {categories !== null && (
                 categories.map((category, index) => {
-                    return <CategoryType key={index} categoryProps={category}/>
+                    if(index < 3){
+                        return <CategoryType key={index} categoryProps={category}/>
+                    }
+
                 })
             )}
 
@@ -73,8 +79,6 @@ const FrontEnd = () => {
 
                 )
             }
-
-
             <div className="section-row loadmore text-center">
                 <a onClick={(e) => loadMore(offset)} className="primary-button">Load More</a>
             </div>

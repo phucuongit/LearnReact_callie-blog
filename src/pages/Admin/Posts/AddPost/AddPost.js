@@ -16,7 +16,10 @@ import {UserLoginContext} from "../../../../Context";
 
 const AddPost = () => {
     let history = useHistory();
-    const [state, dispatch] = useContext(DashBoardContext);
+
+    let {useUserState} = useContext(DashBoardContext);
+
+    const [state, dispatch] = useUserState;
     const {UserLogin, setUserLogin} = useContext(UserLoginContext);
     const [post, setPost] = useState({
         status: 0, // 0 - bản nháp, 1 đã lên lịch , 2 - đã đăng

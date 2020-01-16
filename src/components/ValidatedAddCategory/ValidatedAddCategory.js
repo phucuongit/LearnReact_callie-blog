@@ -11,7 +11,8 @@ import {addCategory} from '../../action/CategoryActionCreators';
 import toastr from 'toastr';
 
 const ValidatedAddCategory = ({history}) => {
-    const [ state, dispatch ] = useContext(DashBoardContext);
+    const {useUserState} = useContext(DashBoardContext);
+    const [ state, dispatch ] = useUserState;
 
     return (
         <div>

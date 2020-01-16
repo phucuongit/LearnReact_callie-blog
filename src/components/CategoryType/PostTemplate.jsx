@@ -3,7 +3,7 @@ import post_9 from '../../issets/img/post-9.jpg'
 import {Link} from "react-router-dom";
 
 const PostTemplate = ({postsProps}) => {
-    console.log(postsProps);
+
     return (
         <div className="col-md-4">
             <div className="post post-sm">

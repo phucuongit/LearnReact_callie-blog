@@ -86,21 +86,30 @@ const Aside = () => {
 
                         <li className="nav-header">SETTING</li>
                         <li className="nav-item"/>
-                        <li className="nav-item has-treeview">
+                        <li className="nav-item">
 
                             <Link to={'/admin/my-profile'}  className="nav-link">
-                                <i className="fas fa-user"> </i>
+                                <i className="nav-icon fas fa-user"> </i>
                                 <p>
                                     My Profile
                                 </p>
                             </Link>
                         </li>
-                        <li className="nav-item has-treeview">
+                        <li className="nav-item">
 
                             <Link to={'/admin/setting'}  className="nav-link">
-                                <i className="fas fa-user"> </i>
+                                <i className="nav-icon fas fa-user"></i>
                                 <p>
                                     My setting
+                                </p>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+
+                            <Link to={'/admin/menus'}  className="nav-link">
+                                <i className="nav-icon fab fa-microsoft"></i>
+                                <p>
+                                    Menu
                                 </p>
                             </Link>
                         </li>

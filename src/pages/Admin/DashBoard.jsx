@@ -24,12 +24,15 @@ import {CategoriesReducerBo, initial} from "../../reducers/CategoriesReducer(bo)
 import toastr from 'toastr';
 import 'toastr/toastr.scss';
 import {Setting} from './Setting/Setting';
+import {initialStateSettings, SettingReducer} from '../../reducers/SettingReducer';
+import Menus from '../Admin/Menus/Menus';
+import MyProfile from "./My Profile/MyProfile";
 
 const DashBoard =  ({history})  => {
     let { isAuthenticated,setAuthenticated } = useContext(Context);
     const useUserState = useReducer(reducer, initialState);
     const {UserLogin, setUserLogin} = useContext(UserLoginContext);
-
+    let settingsReducer = useReducer( SettingReducer, initialStateSettings, 'Settings');
 
     useEffect(() => {
         onload();
@@ -81,7 +84,7 @@ const DashBoard =  ({history})  => {
 
     return (
 
-        <DashBoardContext.Provider value={useUserState}>
+        <DashBoardContext.Provider value={{useUserState, settingsReducer}}>
             {isAuthenticated && (
                 <div className={"wrapper__dashboard"}>
                     <div className="wrapper">
@@ -97,11 +100,11 @@ const DashBoard =  ({history})  => {
                             <Route exact path={'/admin/all-posts'} component={AllPost} history={history}/>
                             <Route path={'/admin/posts/:id'} component={EditPost} history={history}/>
                             <Route exact path={'/admin/add-posts'} component={AddPost} history={history}/>
+                            <Route exact path={'/admin/my-profile'} component={MyProfile} history={history}/>
 
                             <Route exact path={'/admin/categories'} component={Categories} history={history}/>
 
                             <Route exact path={'/admin/setting'} component={Setting} />
-
 
                         </Switch>
 

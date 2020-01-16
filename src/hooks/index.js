@@ -6,8 +6,8 @@ import {useReducer} from "reinspect";
 import {DashBoardContext} from "../Context";
 
 const useApiRequest = (endpoint, { verb = 'get', params = {} } = {}) => {
-
-    const [ state, dispatch ] = useContext(DashBoardContext);
+    let {useUserState} = useContext(DashBoardContext);
+    const [ state, dispatch ] = useUserState;
 
     const makeRequest = useCallback(async () => {
         dispatch(fetching());

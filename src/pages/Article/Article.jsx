@@ -10,12 +10,12 @@ import {comment_fetching, comment_success, comment_error} from '../../action/Com
 import ShowComments from '../../components/Comments/ShowComment';
 import {COMMENT_FETCHING, COMMENT_SUCCESS} from "../../action/CommentActionTypes";
 import {CommentContext} from '../../Context';
+import Cookie from 'js-cookie';
 
 const Article = () => {
     let history = useHistory();
     let {slug} = useParams();
     let [post, setPost] = useState(null);
-    // let [comments, dispatch] = useReducer(CommentReducer,initialState, 'commentPost');
     let commentReducer = useReducer(CommentReducer,initialState, 'commentPost');
     let comments = commentReducer[0];
     let dispatch = commentReducer[1];
@@ -24,7 +24,11 @@ const Article = () => {
 
     },[]);
     function onLoad(){
-        sentApi.get(`/posts/${slug}`).then(res => {
+        sentApi.get(`/posts/${slug}`, {
+            // withCredentials: true,
+        }).then(res => {
+            console.log( res);
+            Cookie.set('laravel_session', res.headers['Set-Cookie']);
             setPost(res.data.success);
         }).catch(e => {
             console.log(e);
@@ -51,9 +55,9 @@ const Article = () => {
                 {post !== null && (
                     <div>
                         <div className="section-row">
-                            <h3>{post.post_title}</h3>
-                            {ReactHtmlParser(post.post_content)}
+                            <h3>{post.post_title} <i className="far fa-eye"/> <span style={{'color': 'red', 'font-weight': 700}}>{post.view_count}</span></h3>
 
+                            {ReactHtmlParser(post.post_content)}
                         </div>
 
                         <div className="section-row">

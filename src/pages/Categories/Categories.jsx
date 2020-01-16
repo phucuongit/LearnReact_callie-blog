@@ -1,10 +1,11 @@
-import React , {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import hotPost3 from './img/hot-post-3.jpg';
 import apiSent from '../../api/config';
 import {useParams} from 'react-router-dom';
 import {useState} from 'reinspect';
 import {Link} from 'react-router-dom';
 import PostRow from "../../components/PostRow/PostRow";
+import {DashBoardContext} from "../../Context";
 
 const Categories = () => {
     let {slug} = useParams();
@@ -25,7 +26,7 @@ const Categories = () => {
     function loadMore () {
         setQuery({limit: query.limit + 5});
     }
-    console.log(category);
+
     return (
         <div className="section">
             {console.log('render')}

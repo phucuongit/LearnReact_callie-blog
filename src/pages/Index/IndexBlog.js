@@ -23,6 +23,7 @@ const IndexBlog = () => {
     let { isAuthenticated,setAuthenticated } = useContext(Context);
     const useUserState = useReducer(reducer, initialState);
     const {UserLogin} = useContext(UserLoginContext);
+
     return(
         <div className={'wrapper--IndexBlog'}>
             <div className="App">
@@ -47,8 +48,6 @@ const IndexBlog = () => {
                                 <AppliedRoute exact path="/categories/:slug" component={Categories} appProps={{isAuthenticated,setAuthenticated }}/>
                                 <Route path="/404" component={NotFound}/>
                                 <AppliedRoute exact strict path='/:slug' component={Article} appProps={{isAuthenticated,setAuthenticated }}/>
-
-                                {/*return props.match.isExact ? <Article {...props} /> : <NotFound/>*/}
                             </Switch>
                         </div>
                         <div className="col-md-4">

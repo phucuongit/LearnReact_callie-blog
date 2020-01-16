@@ -6,22 +6,22 @@ import {getPostByIDError, getPostByIDFetching, getPostByIDSuccess} from "../../.
 import axios from "axios";
 import Cookies from "js-cookie";
 import {Editor} from "@tinymce/tinymce-react";
-import apiSentData from '../../../../api/config';
+import apiSentData, {BASE_URL} from '../../../../api/config';
 import toast from 'toastr';
 import 'toastr/toastr.scss';
 import {UserLoginContext} from "../../../../Context";
-
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+import Loader from "../../../../components/Loader/Loader";
 
 const EditPost = () => {
     let history = useHistory();
-    const [state, dispatch] = useContext(DashBoardContext);
+    let {useUserState} = useContext(DashBoardContext);
+    const [state, dispatch] = useUserState;
+
     const {UserLogin, setUserLogin} = useContext(UserLoginContext);
     const [post, setPost] = useState(null);
-    const [ isEditing, setEdit ] = useState({editStatus: '', editDisplay: '', editTimePublic: '' });
-    let [image , setImage] = useState({uploading: false, images:null});
-    let [Category , setCategory] = useState(null);
+    const [isEditing, setEdit] = useState({editStatus: '', editDisplay: '', editTimePublic: ''});
+    let [image, setImage] = useState({uploading: false, images: null});
+    let [Category, setCategory] = useState(null);
     let {id} = useParams();
     useEffect(() => {
         onLoad();
@@ -38,12 +38,11 @@ const EditPost = () => {
             method: 'GET',
         }).then(res => {
             setPost(res.data.success);
-
-            // setImage({
-            //     ...image,
-            //     uploading: false,
-            //     images: res.data.success.image_thumbnail,
-            // })
+            setImage({
+                ...image,
+                uploading: false,
+                images: (res.data.success.image !== null) ? BASE_URL + res.data.success.image.url : null,
+            });
         }).catch(e => console.log(e));
 
     }
@@ -51,7 +50,7 @@ const EditPost = () => {
         setPost({
             ...post,
             post_content: e.target.getContent(),
-        } );
+        });
     }
     const handleChange = (e) => {
         setPost({
@@ -106,20 +105,20 @@ const EditPost = () => {
     }
     const updateImage = (e) => {
         const files = Array.from(e.target.files);
-        if(files.length > 1){
+        if (files.length > 1) {
             const msg = 'Only one image can be uploaded at a time';
             e.target.value = e.target.defaultValue;
-            return toast.error(msg, {closeButton:true, timeOut: 5000})
+            return toast.error(msg, {closeButton: true, timeOut: 5000})
         }
-        if(files[0].size > 600000){ // 600 kb
+        if (files[0].size > 600000) { // 600 kb
             const msg = 'this image is too large';
             e.target.value = e.target.defaultValue;
-            return toast.error(msg, {closeButton:true, timeOut: 5000})
+            return toast.error(msg, {closeButton: true, timeOut: 5000})
         }
         setImage({
             ...image,
             uploading: true,
-            images: URL.createObjectURL(e.target.files[0])
+            images: URL.createObjectURL(files[0])
         });
 
         //upload image
@@ -127,6 +126,7 @@ const EditPost = () => {
         const formData = new FormData();
         files.forEach((image_file) => {
             formData.append('file', image_file);
+            formData.append('post_id', post.id);
         });
         apiSentData.post('/images', formData, {
                 headers: {
@@ -134,10 +134,12 @@ const EditPost = () => {
                 }
             }
         ).then(res => {
-            setPost({
-                ...post,
-                image_thumbnail: res.data.success,
-            })
+            setImage({
+                ...image,
+                uploading: false,
+                images: URL.createObjectURL(files[0])
+            });
+            toast.success('upload image success', 'Successfully', {closeButton: true, timeOut: 5000});
         }).catch(e => console.log(e));
 
     }
@@ -147,27 +149,30 @@ const EditPost = () => {
             uploading: false,
             images: null,
         });
-        axios.delete(`http://localhost:8000/api/images/${ post.image_thumbnail}`, {
-                headers: {
-                    Authorization: Cookies.get('access_token'),
+
+        apiSentData.delete(`http://localhost:8000/api/images`, {
+                data: {
+                    post_id: post.id,
                 }
             }
         ).then(res => {
-            console.log(res.data.success);
+            toast.success('upload image success', 'Successfully', {closeButton: true, timeOut: 5000});
+        }).catch(e => {
+            console.log(e);
         })
     }
     const handleSelect = (e) => {
         // console.log(typeof post.categories);
         let id = parseInt(e.target.value);
-        if(e.target.checked){
+        if (e.target.checked) {
             setPost({
                 ...post,
                 categories: [...post.categories, id]
             })
-        }else{
+        } else {
             setPost({
                 ...post,
-                categories: post.categories.filter((element,i) => {
+                categories: post.categories.filter((element, i) => {
                     return element !== id;
                 }),
             });
@@ -193,7 +198,7 @@ const EditPost = () => {
 
     return (
         <div className="content-wrapper">
-            { post !== null ? (
+            {post !== null ? (
                 <>
 
                     <section className="content-header">
@@ -219,7 +224,8 @@ const EditPost = () => {
                         <div className="col-md-8">
                             <div className="form-group">
                                 <label>Tiêu đề</label>
-                                <input type="text" defaultValue={post.post_title} onChange={(e) => handleChange(e)} className="form-control" placeholder="Enter the title's post..."/>
+                                <input type="text" defaultValue={post.post_title} onChange={(e) => handleChange(e)}
+                                       className="form-control" placeholder="Enter the title's post..."/>
                             </div>
                             <Editor
                                 apiKey='st1rdmijtzac8vx3cyhjdc2uemv974mtvt8igvv1dbglox18'
@@ -253,10 +259,11 @@ const EditPost = () => {
 
                                 <div className="card-body" style={{"display": "block"}}>
                                     <div className="misc-pub-post-status">
-                                        Trạng thái: <span id="post-status-display">{ (isEditing.editStatus) ?
+                                        Trạng thái: <span id="post-status-display">{(isEditing.editStatus) ?
                                         (
                                             <>
-                                                <select name={'status'} onClick={(e) => changeEditStatus(e)} style={{marginRight: "20px"}}>
+                                                <select name={'status'} onClick={(e) => changeEditStatus(e)}
+                                                        style={{marginRight: "20px"}}>
                                                     <option value={0}>Bản nháp</option>
                                                     <option value={1}>Chờ duyệt</option>
                                                 </select>
@@ -265,7 +272,8 @@ const EditPost = () => {
                                         )
                                         : (
                                             <>
-                                                <span style={{fontWeight: 600}}>{ post.status === 0 ? 'Bản nháp' : 'Chờ duyệt' }</span>
+                                                <span
+                                                    style={{fontWeight: 600}}>{post.status === 0 ? 'Bản nháp' : 'Chờ duyệt'}</span>
                                                 <a href="#" onClick={changeEdit}>Chỉnh sửa status</a>
                                             </>
                                         )
@@ -273,10 +281,11 @@ const EditPost = () => {
 
                                     </div>
                                     <div className="misc-pub-post-status">
-                                        Hiển thị: <span id="post-status-display">{ (isEditing.editDisplay) ?
+                                        Hiển thị: <span id="post-status-display">{(isEditing.editDisplay) ?
                                         (
                                             <>
-                                                <select name={'display'} onClick={(e) => EditStateDisplay(e)} style={{marginRight: "20px"}}>
+                                                <select name={'display'} onClick={(e) => EditStateDisplay(e)}
+                                                        style={{marginRight: "20px"}}>
                                                     <option value={0}>Công khai</option>
                                                     <option value={1}>Riêng tư</option>
                                                 </select>
@@ -285,7 +294,8 @@ const EditPost = () => {
                                         ) :
                                         (
                                             <>
-                                                <span style={{fontWeight: 600}}>{ post.display === 0 ?  'Công khai' : 'Riêng tư' }</span>
+                                                <span
+                                                    style={{fontWeight: 600}}>{post.display === 0 ? 'Công khai' : 'Riêng tư'}</span>
                                                 <a href="#" onClick={changeEditDisplay}>Chỉnh sửa hiển thị</a>
                                             </>
 
@@ -299,7 +309,8 @@ const EditPost = () => {
                                             <>
                                                 <div className="timestamp-wrap">
                                                     <label><span className="screen-reader-text">Ngày</span>
-                                                        <input type="text" name="date" defaultValue={new Date().getDay()} size="2" maxLength="2"
+                                                        <input type="text" name="date"
+                                                               defaultValue={new Date().getDay()} size="2" maxLength="2"
                                                                autoComplete="off"/>
                                                     </label>
                                                     <label><span className="screen-reader-text">Tháng</span>
@@ -315,27 +326,37 @@ const EditPost = () => {
                                                             <option value="09" data-text="Th9">09-Th9</option>
                                                             <option value="10" data-text="Th10">10-Th10</option>
                                                             <option value="11" data-text="Th11">11-Th11</option>
-                                                            <option value="12" data-text="Th12" selected="selected">12-Th12</option>
+                                                            <option value="12" data-text="Th12"
+                                                                    selected="selected">12-Th12
+                                                            </option>
                                                         </select>
                                                     </label>
                                                     <label><span className="screen-reader-text">Năm</span>
-                                                        <input type="number" name="year" defaultValue={new Date().getFullYear()} size="4" maxLength="4"
+                                                        <input type="number" name="year"
+                                                               defaultValue={new Date().getFullYear()} size="4"
+                                                               maxLength="4"
                                                                autoComplete="off"/>
                                                     </label>
                                                     <label><span className="screen-reader-text">Giờ</span>
-                                                        <input type="number" name="hh" defaultValue={new Date().getHours()} size="2" maxLength="2"
+                                                        <input type="number" name="hh"
+                                                               defaultValue={new Date().getHours()} size="2"
+                                                               maxLength="2"
                                                                autoComplete="off"/>
                                                     </label>
                                                     <label><span className="screen-reader-text">Phút</span>
-                                                        <input type="text" id="mn" name="mn" defaultValue={new Date().getMinutes()} size="2" maxLength="2"
+                                                        <input type="text" id="mn" name="mn"
+                                                               defaultValue={new Date().getMinutes()} size="2"
+                                                               maxLength="2"
                                                                autoComplete="off"/>
                                                     </label>
                                                 </div>
-                                                <a href="#" className={'timestamp-wrap__ok'} onClick={changeEditPublic}>OK</a>
+                                                <a href="#" className={'timestamp-wrap__ok'}
+                                                   onClick={changeEditPublic}>OK</a>
                                             </>
                                         ) : (
                                             <>
-                                                <span style={{fontWeight: 600}}>{ post.time_public === 0 ? ' Ngay lập tức' : ' Ngày: ... Tháng: ... Năm: ...' }</span>
+                                                <span
+                                                    style={{fontWeight: 600}}>{post.time_public === 0 ? ' Ngay lập tức' : ' Ngày: ... Tháng: ... Năm: ...'}</span>
                                                 <a href="#" onClick={changeEditPublic}>Chỉnh sửa đăng</a>
                                             </>
                                         )
@@ -358,27 +379,30 @@ const EditPost = () => {
 
                                 </div>
 
-                                { !image.uploading ? (
+                                {image.images === null ? (
                                     <div className="card-body" style={{"display": "block"}}>
                                         <form className="md-form">
                                             <div className="file-field">
                                                 <a className="btn-floating purple-gradient mt-0 float-left">
                                                     <i className="fas fa-cloud-upload-alt" aria-hidden="true"/>
-                                                    <input type="file" lang={'en'} accept={'image/x-png, image/gif, image/jpeg'} onChange={(e) => updateImage(e)} name={'thumbnail__file'}/>
+                                                    <input type="file" lang={'en'}
+                                                           accept={'image/x-png, image/gif, image/jpeg'}
+                                                           onChange={(e) => updateImage(e)} name={'thumbnail__file'}/>
                                                 </a>
                                             </div>
                                         </form>
                                     </div>
                                 ) : (
-                                    <div className="card-body" style={{"display": "block"}}>
-                                        <div
-                                            onClick={(e) => removeImage(e)}
-                                            className='btn--delete'
-                                        >
-                                            <i className="fas fa-minus-circle"></i>
-                                        </div>
-                                        <img src={image.images} className={'img-thumbnail'} />
-                                    </div>
+                                    image.uploading ? <Loader/> : (
+                                        <div className="card-body" style={{"display": "block"}}>
+                                            <div
+                                                onClick={(e) => removeImage(e)}
+                                                className='btn--delete'
+                                            >
+                                                <i className="fas fa-minus-circle"></i>
+                                            </div>
+                                            <img src={image.images} className={'img-thumbnail'}/>
+                                        </div>)
                                 )
                                 }
 
@@ -399,7 +423,7 @@ const EditPost = () => {
                                         <div className="file-field">
                                             <ul className="list-group list-group-flush">
 
-                                                { Category !== null && (
+                                                {Category !== null && (
                                                     Category.map((element, index) => {
                                                         return (
                                                             <li className="list-group-control" key={index}>
@@ -431,8 +455,6 @@ const EditPost = () => {
                                 </div>
 
 
-
-
                             </div>
 
                         </div>
@@ -460,7 +482,7 @@ const EditPost = () => {
                         </div>
 
                     </section>
-                    Loading
+                    <Loader/>
                 </div>
             )}
         </div>

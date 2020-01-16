@@ -10,10 +10,10 @@ import {DashBoardContext} from "../../Context";
 import {add_user} from '../../action/actionCreators';
 import {useReducer} from "reinspect";
 import reducer, {initialState} from "../../reducers/reducer";
-const ValidatedAddUser = ({appProps, history}) => {
-    // const [state, dispatch] = useReducer(reducer, initialState);
 
-    const [ state, dispatch ] = useContext(DashBoardContext);
+const ValidatedAddUser = ({appProps, history}) => {
+    let {useUserState} = useContext(DashBoardContext);
+    const [ state, dispatch ] = useUserState;
 
     return (
             <div>

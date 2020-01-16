@@ -1,6 +1,6 @@
 import React, { useEffect, useContext} from 'react';
 import {authenticate} from "../../../authenticate/authen";
-import Context from "../../../Context";
+import Context, {DashBoardContext} from "../../../Context";
 import {Link} from "react-router-dom";
 import ValidatedAddUser from '../../../components/ValidatedAddUser/ValidatedAddUser';
 

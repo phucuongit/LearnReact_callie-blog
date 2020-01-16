@@ -1,128 +1,98 @@
-import React, {Component, useContext} from 'react';
+import React, { useContext, useEffect} from 'react';
 import './header.css';
+import {useState} from 'reinspect';
 import logo from '../../issets/img/logo.png';
 import post_10 from '../../issets/img/post-10.jpg';
 import post_5 from '../../issets/img/post-5.jpg';
 import post_12 from '../../issets/img/post-12.jpg';
 import post_13 from '../../issets/img/post-13.jpg';
+import sentApi from '../../api/config';
 import { BrowserRouter as  Link, NavLink} from 'react-router-dom';
 import {UserLoginContext} from "../../Context";
-class Header extends Component {
-    constructor(props){
+import DropDownMenu from '../DropDownMenu/DropDownMenu';
 
-        super(props);
-        this.state = {
-            isAdmin: false,
-        };
-        this.UserLogin = props.UserLogin;
-        if(this.UserLogin !== null) {
-            this.checkAdmin(this.UserLogin.roles);
-        }
-        //this.handleLogout = this.handleLogout.bind(this);
-
+const Header = ({UserLogin, appProps}) => {
+    let [isAdmin, setIsAdmin] = useState(false);
+    let [menuTop, setMenuTop] = useState(null);
+    const { isAuthenticated, setAuthenticated } = appProps;
+    useEffect(() => {
+        sentApi.get('/menus/filter?menu_type=mainMenu').then(res => {
+            setMenuTop(res.data.success);
+        }).catch(e => console.log(e));
+    }, []);
+    if(UserLogin !== null) {
+        checkAdmin(UserLogin.roles);
     }
-    checkAdmin(roles){
+
+    function checkAdmin(roles){
             roles.forEach( (role, index) => {
                 if(role.slug === 'admin') {
-                    this.setState( { isAdmin: true});
+                    setIsAdmin(true);
                 }
             });
     }
 
+    return (
+            <header id="header">
 
+            <div id="nav">
 
-    // handleLogout(){
-    //     this.props.setAuthenticated(false);
-    // }
+                <div id="nav-top">
+                    <div className="container">
 
-    render() {
+                        <ul className="nav-social">
+                            <li><a href="#"><i className="fa fa-facebook"/></a></li>
+                            <li><a href="#"><i className="fa fa-twitter"/></a></li>
+                            <li><a href="#"><i className="fa fa-google-plus"/></a></li>
+                            <li><a href="#"><i className="fa fa-instagram"/></a></li>
+                        </ul>
 
-        const { isAuthenticated, setAuthenticated } = this.props.appProps;
-        const { isAdmin } = this.state;
-        // console.log(isAuthenticated);
-        return (
+                        <div className="nav-logo">
+                            <NavLink to="/" exact >
+                                <img src={logo} alt=""/>
+                            </NavLink>
 
-                <header id="header">
-
-                <div id="nav">
-
-                    <div id="nav-top">
-                        <div className="container">
-
-                            <ul className="nav-social">
-                                <li><a href="#"><i className="fa fa-facebook"/></a></li>
-                                <li><a href="#"><i className="fa fa-twitter"/></a></li>
-                                <li><a href="#"><i className="fa fa-google-plus"/></a></li>
-                                <li><a href="#"><i className="fa fa-instagram"/></a></li>
-                            </ul>
-
-                            <div className="nav-logo">
-                                <NavLink to="/" exact >
-
-                                    <img src={logo} alt=""/>
-                                </NavLink>
-
-                            </div>
-
-                            <div className="nav-btns">
-                                {isAuthenticated ?
-                                    <>
-                                        {isAdmin && (
-                                            <button className="aside-btn" ><NavLink exact to="/admin" >Admin DashBoard</NavLink></button>
-                                        )}
-                                            <button className="aside-btn" ><NavLink exact to="/logout" >Logout</NavLink></button>
-                                    </>
-                                    :
-                                        <>
-                                            <button className="aside-btn"><NavLink exact to="/login">Login</NavLink></button>
-                                        </>
-                                }
-
-
-                                <button className="search-btn"><i className="fa fa-search"/></button>
-                                <div id="nav-search">
-                                    <form>
-                                        <input className="input" name="search" placeholder="Enter your search..."/>
-                                    </form>
-                                    <button className="nav-close search-close">
-                                        <span/>
-                                    </button>
-                                </div>
-                            </div>
-                         
                         </div>
+
+                        <div className="nav-btns">
+                            {isAuthenticated ?
+                                <>
+                                    {isAdmin && (
+                                        <button className="aside-btn" ><NavLink exact to="/admin" >Admin DashBoard</NavLink></button>
+                                    )}
+                                        <button className="aside-btn" ><NavLink exact to="/logout" >Logout</NavLink></button>
+                                </>
+                                :
+                                    <>
+                                        <button className="aside-btn"><NavLink exact to="/login">Login</NavLink></button>
+                                    </>
+                            }
+
+
+                            <button className="search-btn"><i className="fa fa-search"/></button>
+                            <div id="nav-search">
+                                <form>
+                                    <input className="input" name="search" placeholder="Enter your search..."/>
+                                </form>
+                                <button className="nav-close search-close">
+                                    <span/>
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
+                </div>
 
-                    <div id="nav-bottom">
-                        <div className="container">
+                <div id="nav-bottom">
+                    <div className="container">
 
-                            <ul className="nav-menu">
-                                <li className="has-dropdown">
+                        <ul className="nav-menu">
+                            {menuTop !== null && (
+                                <>
+                                    {menuTop.map((menu, index) => {
+                                        return  (<DropDownMenu key={index} menu={menu}/>);
+                                    })}
 
-                                    <NavLink exact={true} activeStyle={{
-                                        backgroundColor : 'white',
-                                        color : 'red'
-                                    }} to="/">Home</NavLink>
-
-                                    <div className="dropdown">
-                                        <div className="dropdown-body">
-                                            <ul className="dropdown-list">
-                                                <li><a href="category.html">Category page</a></li>
-                                                <li><NavLink exact activeStyle={{
-                                                    backgroundColor : 'white',
-                                                    color : 'red'
-                                                }} to="/post">Posts Page</NavLink></li>
-                                                <li><a href="author.html">Author page</a></li>
-                                                <li><a href="about.html">About Us</a></li>
-                                                <li><NavLink activeStyle={{
-                                                    backgroundColor : 'white',
-                                                    color : 'red'
-                                                }} exact to="/contact">Contact page</NavLink></li>
-                                                <li><a href="blank.html">Regular</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
                                 <li className="has-dropdown megamenu">
                                     <a href="#">Lifestyle</a>
                                     <div className="dropdown tab-dropdown">
@@ -253,99 +223,37 @@ class Header extends Component {
                                         </div>
                                     </div>
                                 </li>
-                                <li className="has-dropdown megamenu">
-                                    <a href="#">Fashion</a>
-                                    <div className="dropdown">
-                                        <div className="dropdown-body">
-                                            <div className="row">
-                                                <div className="col-md-3">
-                                                    <h4 className="dropdown-heading">Categories</h4>
-                                                    <ul className="dropdown-list">
-                                                        <li><a href="#">Lifestyle</a></li>
-                                                        <li><a href="#">Fashion</a></li>
-                                                        <li><a href="#">Technology</a></li>
-                                                        <li><a href="#">Health</a></li>
-                                                        <li><a href="#">Travel</a></li>
-                                                    </ul>
-                                                </div>
-                                                <div className="col-md-3">
-                                                    <h4 className="dropdown-heading">Lifestyle</h4>
-                                                    <ul className="dropdown-list">
-                                                        <li><a href="#">Lifestyle</a></li>
-                                                        <li><a href="#">Fashion</a></li>
-                                                        <li><a href="#">Health</a></li>
-                                                    </ul>
-                                                    <h4 className="dropdown-heading">Technology</h4>
-                                                    <ul className="dropdown-list">
-                                                        <li><a href="#">Lifestyle</a></li>
-                                                        <li><a href="#">Travel</a></li>
-                                                    </ul>
-                                                </div>
-                                                <div className="col-md-3">
-                                                    <h4 className="dropdown-heading">Fashion</h4>
-                                                    <ul className="dropdown-list">
-                                                        <li><a href="#">Fashion</a></li>
-                                                        <li><a href="#">Technology</a></li>
-                                                    </ul>
-                                                    <h4 className="dropdown-heading">Travel</h4>
-                                                    <ul className="dropdown-list">
-                                                        <li><a href="#">Lifestyle</a></li>
-                                                        <li><a href="#">Healtth</a></li>
-                                                        <li><a href="#">Fashion</a></li>
-                                                    </ul>
-                                                </div>
-                                                <div className="col-md-3">
-                                                    <h4 className="dropdown-heading">Health</h4>
-                                                    <ul className="dropdown-list">
-                                                        <li><a href="#">Technology</a></li>
-                                                        <li><a href="#">Fashion</a></li>
-                                                        <li><a href="#">Health</a></li>
-                                                        <li><a href="#">Travel</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li><NavLink exact activeStyle={{
-                                    backgroundColor : 'white',
-                                    color : 'red'
-                                }} to="/post">Posts Page</NavLink></li>
-                                <li><NavLink exact activeStyle={{
-                                    backgroundColor : 'white',
-                                    color : 'red'
-                                }} to="/contact">Contact Page</NavLink></li>
 
-                            </ul>
-
-                        </div>
-                    </div>
-
-                    <div id="nav-aside">
-                        <ul className="nav-aside-menu">
-                            <li><NavLink to="/">Home</NavLink></li>
-                            <li className="has-dropdown"><a>Categories</a>
-                                <ul className="dropdown">
-                                    <li><a href="#">Lifestyle</a></li>
-                                    <li><a href="#">Fashion</a></li>
-                                    <li><a href="#">Technology</a></li>
-                                    <li><a href="#">Travel</a></li>
-                                    <li><a href="#">Health</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="about.html">About Us</a></li>
-                            <li><a href="contact.html">Contacts</a></li>
-                            <li><a href="#">Advertise</a></li>
+                            </>
+                            )}
                         </ul>
-                        <button className="nav-close nav-aside-close"><span/></button>
-                    </div>
 
+                    </div>
                 </div>
 
-            </header>
+                <div id="nav-aside">
+                    <ul className="nav-aside-menu">
+                        <li><NavLink to="/">Home</NavLink></li>
+                        <li className="has-dropdown"><a>Categories</a>
+                            <ul className="dropdown">
+                                <li><a href="#">Lifestyle</a></li>
+                                <li><a href="#">Fashion</a></li>
+                                <li><a href="#">Technology</a></li>
+                                <li><a href="#">Travel</a></li>
+                                <li><a href="#">Health</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contacts</a></li>
+                        <li><a href="#">Advertise</a></li>
+                    </ul>
+                    <button className="nav-close nav-aside-close"><span/></button>
+                </div>
 
-        );
-    }
+            </div>
+
+        </header>
+    );
 }
 
 export default Header;

@@ -2,44 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c91087b9-e4e1-441d-a135-e288a3a94555" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/dist/img/avatar_user.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/dist/img/loading1.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Notification/Notification.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/action/userActionCreators.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/action/userActionCreators.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/action/userActionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/action/userActionTypes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ArticlePost/Recent_Post.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ArticlePost/Recent_Post.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CategoryType/CategoryType.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CategoryType/CategoryType.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CategoryType/PostTemplate.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CategoryType/PostTemplate.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Comments/AddComments.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Comments/AddComments.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Comments/AddReply.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Comments/AddReply.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Comments/ShowComment.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Comments/ShowComment.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Footer/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Footer/Footer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/HotPost/HotPost.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/HotPost/HotPost.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PostRow/PostRow.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PostRow/PostRow.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PostThumb/PostThumb.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PostThumb/PostThumb.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Notification/Notification.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Notification/Notification.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Sidebar/Sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Sidebar/Sidebar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ValidatedLoginForm/ValidatedLoginForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ValidatedLoginForm/ValidatedLoginForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Widget/CategoriesFooterWidget.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Widget/CategoriesFooterWidget.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Widget/CategoryWidget.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Widget/CategoryWidget.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Widget/PopularPostsWidget.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Widget/PopularPostsWidget.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Widget/TagsFooterWidget.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Widget/TagsFooterWidget.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Admin/Aside/Aside.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Admin/Aside/Aside.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Admin/DashBoard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Admin/DashBoard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Admin/Header/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Admin/Header/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Admin/My Profile/MyProfile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Admin/My Profile/MyProfile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Admin/Posts/AddPost/AddPost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Admin/Posts/AddPost/AddPost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Admin/Posts/AllPost/AllPost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Admin/Posts/AllPost/AllPost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Admin/Profile/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Admin/Profile/Profile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Admin/Setting/Setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Admin/Setting/Setting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Article/Article.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Article/Article.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/FrontEnd/FrontEnd.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/FrontEnd/FrontEnd.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reducers/UserReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/UserReducer.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,7 +172,7 @@
       <workItem from="1579407466607" duration="1195000" />
       <workItem from="1579447312248" duration="13425000" />
       <workItem from="1579524662932" duration="599000" />
-      <workItem from="1579576326931" duration="10292000" />
+      <workItem from="1579576326931" duration="13424000" />
     </task>
     <servers />
   </component>
@@ -338,9 +304,9 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1579363637161" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1579593687386">
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1579597670802">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1579593687386" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1579597670802" />
   </component>
 </project>

@@ -37,7 +37,9 @@ const PopularPostsWidget = () => {
                 {
                     popularPosts.map((post, index) => {
                         return (<div key={index} className="post post-widget">
-                            <a className="post-img" href="blog-post.html"><img src={(post.image !== null) ? post.image.url : '/dist/img/loading1.gif'} alt=""></img></a>
+                            <Link to={post.slug} className="post-img">
+                                <img src={(post.image !== null) ? post.image.url : '/dist/img/loading1.gif'} alt=""></img>
+                            </Link>
                             <div className="post-body">
                                 <div className="post-category">
                                     {

@@ -2,6 +2,7 @@ import Pusher from "pusher-js";
 import React from "react";
 import {Link} from 'react-router-dom';
 import HtmlParser from "react-html-parser";
+import {BASE_URL} from "../../api/config";
 const NOTIFICATION_TYPES = {
     newCommentPost: "App\\Notifications\\UserCommentedPost",
 };
@@ -23,8 +24,8 @@ const notificationText = (notification) => {
     let text = '';
     if(NOTIFICATION_TYPES.newCommentPost === notification.type){
         const namePost = notification.post_name;
-        console.log(namePost);
         const userComment = notification.user_comment;
+
         text += `<p class="text-sm"><strong>${userComment}</strong>` + ' just comments the ' + `<strong>${namePost}</strong>` +  ' post of you</p>';
     }
     return text;
@@ -33,9 +34,10 @@ const notificationText = (notification) => {
 export const makeNotification = (notification, index) => { // truyền 1 chuỗi thông báo đến vầ tạo route link đến
     let to = routeNotification(notification);
     let message = notificationText(notification);
+    const user_avatar = notification.user_avatar;
     return  (<Link key={index} to={to} target={'_blank'} className="dropdown-item">
                 <div className="media">
-                    <img src="dist/img/user1-128x128.jpg" alt="User Avatar" className="img-size-50 mr-3 img-circle"/>
+                    <img src={(user_avatar == null) ? '/dist/img/avatar_user.png' : BASE_URL + user_avatar} alt="User Avatar" className="img-size-50 mr-3 img-circle"/>
                     <div className="media-body">
                         <h3 className="dropdown-item-title">
                             Just have a comment

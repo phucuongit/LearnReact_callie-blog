@@ -8,7 +8,7 @@ const PostTemplate = ({postsProps}) => {
         <div className="col-md-4">
             <div className="post post-sm">
                 <Link className="post-img" to={postsProps.slug}>
-                    <img src={post_9} alt=""/>
+                    <img src={(postsProps.image !== null) ? postsProps.image.url : '/dist/img/loading1.gif'} alt=""/>
                 </Link>
                 <div className="post-body">
                     <div className="post-category">

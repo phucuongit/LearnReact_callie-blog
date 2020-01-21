@@ -6,7 +6,7 @@ const RecentPost = ({rentPost}) => {
         return (
             <div className="col-md-6">
                 <div className="post">
-                    <Link className="post-img" to={rentPost.slug}><img src={ post_1 } alt=""/></Link>
+                    <Link className="post-img" to={rentPost.slug}><img src={ (rentPost.image !== null) ? rentPost.image.url : '/dist/img/loading1.gif' } alt=""/></Link>
                     <div className="post-body">
                         <div className="post-category">
                             {rentPost.CategoriesPost.map((category, index) => {

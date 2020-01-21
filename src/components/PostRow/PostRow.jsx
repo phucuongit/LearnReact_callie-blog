@@ -6,7 +6,7 @@ const PostRow = ({post, className}) => {
     return (
         <div  className={`post ${ (className) ? className :'post-row'}`}>
             <Link to={post.slug} className="post-img">
-                <img src={image13} alt=""/>
+                <img src={(post.image !== null) ? post.image.url : '/dist/img/loading1.gif'} alt=""/>
             </Link>
             <div className="post-body">
                 {post.categories.length > 0 && (

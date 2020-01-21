@@ -1,4 +1,5 @@
 import React from 'react';
+
 const Profile = () => {
     return (
         <div className="content-wrapper">
@@ -418,4 +419,4 @@ const Profile = () => {
         </div>
     );
 }
-export default  Profile;
+export default Profile;

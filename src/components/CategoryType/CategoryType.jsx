@@ -10,7 +10,7 @@ const CategoryType = ({categoryProps}) => {
         onLoad();
     }, []);
     function onLoad(){
-        sentApi.get(`/categories/${categoryProps.id}/posts`).then(res => {
+        sentApi.get(`/categories/${categoryProps.id}/posts?display=1`).then(res => {
             setPosts(res.data.success);
         })
     }

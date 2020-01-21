@@ -10,7 +10,7 @@ import toastr from "toastr";
 import {CommentContext} from "../../Context";
 import {addReply} from '../../action/CommentActionCreators';
 
-const AddReply = ({comment_id, post_id}) => {
+const AddReply = ({callback,comment_id, post_id}) => {
 
     let [comments, dispatch] = useContext(CommentContext);
     const history = useHistory();
@@ -22,6 +22,7 @@ const AddReply = ({comment_id, post_id}) => {
                 resetForm({});
                 setTimeout(()=> {
                     //xử lý add user
+                    callback(post_id);
                     try{
                         apiSent.post('/replies/store', values)
                             .then(res => {

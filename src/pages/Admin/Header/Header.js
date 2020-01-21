@@ -1,150 +1,111 @@
-import {Link} from "react-router-dom";
-import React, {useContext} from "react";
+import {Link, NavLink} from "react-router-dom";
+import React, {useContext, useEffect} from "react";
 import Cookies from 'js-cookie';
 import Context, {UserLoginContext} from '../../../Context';
+import 'bootstrap/dist/js/bootstrap.min';
+import {channel, makeNotification} from "../../../components/Notification/Notification";
+import {useState} from "reinspect";
+import HtmlParser from "react-html-parser";
+import toastr from 'toastr';
+import sentApi from '../../../api/config';
+
 const Header = ({history}) => {
-    let { setAuthenticated } = useContext(Context);
+    let {setAuthenticated} = useContext(Context);
     const {setUserLogin} = useContext(UserLoginContext);
+    const [notifications , setNotify] = useState([]);
+
+    let merge = [];
+    useEffect(() => {
+        sentApi.get('/notifications').then(res => {
+            let data = [];
+            res.data.success.map((item, index) => {
+                item.data.id   = item.id;
+                item.data.type = item.type;
+                merge.push(item.data);
+            })
+            setNotify(merge);
+        }).catch(e => {
+            console.log(e.response.statusText);
+        });
+        channel.bind("Illuminate\\Notifications\\Events\\BroadcastNotificationCreated", function(data) {
+            merge.push(data);
+            setNotify([...merge]);
+            // console.log(notifications);
+            // makeNotification(JSON.stringify(data));
+        });
+    }, []);
+
     function LogoutHandler() {
-        if(Cookies.get('access_token')){
+        if (Cookies.get('access_token')) {
             Cookies.remove('access_token');
             Cookies.remove('user_login');
-            alert('Logging out success');
+            toastr.success('Logging out successful');
             setUserLogin(null);
             setAuthenticated(false);
             history.push("/login");
         }
     }
+
     return (
         <nav className="main-header navbar navbar-expand navbar-white navbar-light">
             <ul className="navbar-nav">
-                <li className="nav-item">
-                    <a className="nav-link" data-widget="pushmenu" href="#"><i className="fas fa-bars"></i></a>
-                </li>
                 <li className="nav-item d-none d-sm-inline-block">
-                    <Link to={'/admin/1'} className="nav-link">
+                    <Link to={'/admin'} className="nav-link">
                         Home
                     </Link>
-                 
-                </li>
-                <li className="nav-item d-none d-sm-inline-block">
-                    <a href="#" className="nav-link">Contact</a>
+
                 </li>
             </ul>
-           <form className="form-inline ml-3">
-            <div className="input-group input-group-sm">
-                <input className="form-control form-control-navbar" type="search" placeholder="Search"
-                       aria-label="Search"/>
-                <div className="input-group-append">
-                    <button className="btn btn-navbar" type="submit">
-                        <i className="fas fa-search"/>
-                    </button>
+            <form className="form-inline ml-3">
+                <div className="input-group input-group-sm">
+                    <input className="form-control form-control-navbar" type="search" placeholder="Search"
+                           aria-label="Search"/>
+                    <div className="input-group-append">
+                        <button className="btn btn-navbar" type="submit">
+                            <i className="fas fa-search"/>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+
             <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                    <NavLink exact to="/" target={'_blank'} style={{color: '#0D65D9', display: 'flex', 'align-items': 'center', height: '100%'}}>View Blog</NavLink>
+                </li>
+                <li className="nav-item dropdown">
+                    <a className="nav-link" data-toggle="dropdown" href="#">
+                        <i className="far fa-comments"/>
+                        {notifications.length > 0 && (
+                            <span className="badge badge-danger navbar-badge">{notifications.length}</span>
+                        )}
 
-            <li className="nav-item dropdown">
-                <a className="nav-link" data-toggle="dropdown" href="#">
-                    <i className="far fa-comments"/>
-                    <span className="badge badge-danger navbar-badge">3</span>
-                </a>
-                <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <a href="#" className="dropdown-item">
-
-                        <div className="media">
-                            <img src="dist/img/user1-128x128.jpg" alt="User Avatar"
-                                 className="img-size-50 mr-3 img-circle"/>
-                            <div className="media-body">
-                                <h3 className="dropdown-item-title">
-                                    Brad Diesel
-                                    <span className="float-right text-sm text-danger"><i
-                                        className="fas fa-star"/></span>
-                                </h3>
-                                <p className="text-sm">Call me whenever you can...</p>
-                                <p className="text-sm text-muted"><i className="far fa-clock mr-1"/> 4
-                                    Hours Ago</p>
+                    </a>
+                    <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        {notifications.length > 0 ? (
+                            notifications.map((notification, index) => {
+                                return makeNotification(notification, index)
+                            })
+                        ) : (
+                            <div className="media" style={{padding: '5px 20px'}}>
+                                <div className="media-body">
+                                        Dont't have anything
+                                </div>
                             </div>
-                        </div>
+                        )}
+                            <div className="dropdown-divider"></div>
 
+                    </div>
+                </li>
+
+
+                <li className="nav-item">
+
+                    <a data-widget="control-sidebar" data-slide="true" className="nav-link" onClick={LogoutHandler}>
+                        <i className="fas fa-sign-out-alt">Logout</i>
                     </a>
-                    <div className="dropdown-divider"></div>
-                    <a href="#" className="dropdown-item">
 
-                        <div className="media">
-                            <img src="dist/img/user8-128x128.jpg" alt="User Avatar"
-                                 className="img-size-50 img-circle mr-3"/>
-                            <div className="media-body">
-                                <h3 className="dropdown-item-title">
-                                    John Pierce
-                                    <span className="float-right text-sm text-muted"><i
-                                        className="fas fa-star"/></span>
-                                </h3>
-                                <p className="text-sm">I got your message bro</p>
-                                <p className="text-sm text-muted"><i className="far fa-clock mr-1"></i> 4
-                                    Hours Ago</p>
-                            </div>
-                        </div>
-
-                    </a>
-                    <div className="dropdown-divider"></div>
-                    <a href="#" className="dropdown-item">
-
-                        <div className="media">
-                            <img src="dist/img/user3-128x128.jpg" alt="User Avatar"
-                                 className="img-size-50 img-circle mr-3"/>
-                            <div className="media-body">
-                                <h3 className="dropdown-item-title">
-                                    Nora Silvester
-                                    <span className="float-right text-sm text-warning"><i
-                                        className="fas fa-star"/></span>
-                                </h3>
-                                <p className="text-sm">The subject goes here</p>
-                                <p className="text-sm text-muted"><i className="far fa-clock mr-1"></i> 4
-                                    Hours Ago</p>
-                            </div>
-                        </div>
-
-                    </a>
-                    <div className="dropdown-divider"></div>
-                    <a href="#" className="dropdown-item dropdown-footer">See All Messages</a>
-                </div>
-            </li>
-
-            <li className="nav-item dropdown">
-                <a className="nav-link" data-toggle="dropdown" href="#">
-                    <i className="far fa-bell"></i>
-                    <span className="badge badge-warning navbar-badge">15</span>
-                </a>
-                <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span className="dropdown-item dropdown-header">15 Notifications</span>
-                    <div className="dropdown-divider"></div>
-                    <a href="#" className="dropdown-item">
-                        <i className="fas fa-envelope mr-2"></i> 4 new messages
-                        <span className="float-right text-muted text-sm">3 mins</span>
-                    </a>
-                    <div className="dropdown-divider"></div>
-                    <a href="#" className="dropdown-item">
-                        <i className="fas fa-users mr-2"></i> 8 friend requests
-                        <span className="float-right text-muted text-sm">12 hours</span>
-                    </a>
-                    <div className="dropdown-divider"></div>
-                    <a href="#" className="dropdown-item">
-                        <i className="fas fa-file mr-2"></i> 3 new reports
-                        <span className="float-right text-muted text-sm">2 days</span>
-                    </a>
-                    <div className="dropdown-divider"></div>
-                    <a href="#" className="dropdown-item dropdown-footer">See All Notifications</a>
-                </div>
-            </li>
-            <li className="nav-item" >
-                <a data-widget="control-sidebar" data-slide="true" className="nav-link" onClick={LogoutHandler}>
-                    <i className="fas fa-sign-out-alt">Logout</i>
-                 
-                </a>
-
-            </li>
-        </ul>
+                </li>
+            </ul>
         </nav>
     );
 }

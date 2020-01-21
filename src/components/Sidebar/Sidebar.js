@@ -42,56 +42,11 @@ class Sidebar extends Component {
                     </div>
                 </div>
 
-               <CategoryWidget/>
-
-                <div className="aside-widget">
-                    <div className="section-title">
-                        <h2 className="title">Newsletter</h2>
-                    </div>
-                    <div className="newsletter-widget">
-                        <form>
-                            <p>Nec feugiat nisl pretium fusce id velit ut tortor pretium.</p>
-                            <input className="input" name="newsletter" placeholder="Enter Your Email"/>
-                            <button className="primary-button">Subscribe</button>
-                        </form>
-                    </div>
-                </div>
+                <CategoryWidget/>
 
                 <PopularPostsWidget/>
 
-                <div className="aside-widget">
-                    <div className="section-title">
-                        <h2 className="title">Instagram</h2>
-                    </div>
-                    <div className="galery-widget">
-                        <ul>
-                            <li>
-                                <a href="#"><img src="./img/galery-1.jpg" alt=""/></a>
-                            </li>
-                            <li>
-                                <a href="#"><img src="./img/galery-2.jpg" alt=""/></a>
-                            </li>
-                            <li>
-                                <a href="#"><img src="./img/galery-3.jpg" alt=""/></a>
-                            </li>
-                            <li>
-                                <a href="#"><img src="./img/galery-4.jpg" alt=""/></a>
-                            </li>
-                            <li>
-                                <a href="#"><img src="./img/galery-5.jpg" alt=""/></a>
-                            </li>
-                            <li>
-                                <a href="#"><img src="./img/galery-6.jpg" alt=""/></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
 
-                <div className="aside-widget text-center">
-                    <a href="#" style={{"display": "inline-block", "margin": "auto"}}>
-                        <img className="img-responsive" src="./img/ad-1.jpg" alt=""/>
-                    </a>
-                </div>
             </div>
         );
     }

@@ -1,6 +1,7 @@
 import React, {Component, useContext, useEffect} from 'react';
 import axios from 'axios';
 import {useParams, useHistory} from 'react-router-dom';
+import {useLocation} from 'react-router';
 import {useReducer, useState} from 'reinspect';
 import AddComments from "../../components/Comments/AddComments";
 import sentApi from '../../api/config';
@@ -11,9 +12,13 @@ import ShowComments from '../../components/Comments/ShowComment';
 import {COMMENT_FETCHING, COMMENT_SUCCESS} from "../../action/CommentActionTypes";
 import {CommentContext} from '../../Context';
 import Cookie from 'js-cookie';
+import queryString from 'querystring';
 
 const Article = () => {
     let history = useHistory();
+    let location = useLocation();
+    const search = (location.search);
+    // console.log(search);
     let {slug} = useParams();
     let [post, setPost] = useState(null);
     let commentReducer = useReducer(CommentReducer,initialState, 'commentPost');
@@ -24,6 +29,7 @@ const Article = () => {
 
     },[]);
     function onLoad(){
+
         sentApi.get(`/posts/${slug}`, {
             // withCredentials: true,
         }).then(res => {
@@ -40,6 +46,11 @@ const Article = () => {
             history.push('/404');
             dispatch(comment_error(e));
         });
+        if(search){
+            sentApi.get(`/notifications${search}`).then(res => {
+                
+            }).catch(e => console.log(e));
+        }
     }
     return (
         <div>
@@ -59,7 +70,11 @@ const Article = () => {
 
                             {ReactHtmlParser(post.post_content)}
                         </div>
-
+                        <div className="section-row">
+                            <div className="section-title">
+                                <h3 className="title">Author: <a href="author.html">{post.NameAuthor}</a></h3>
+                            </div>
+                        </div>
                         <div className="section-row">
                             <div className="post-tags">
                                 <ul>
@@ -75,7 +90,7 @@ const Article = () => {
                         <div className="section-row">
                             <div className="post-nav">
                                 <div className="prev-post">
-                                    <a className="post-img" href="blog-post.html"><img src="./img/widget-8.jpg" alt=""/></a>
+                                    <a className="post-img" href="blog-post.html"><img src={(post.image !== null) ? post.image.url : '/dist/img/loading1.gif'} alt=""/></a>
                                     <h3 className="post-title"><a href="#">Sed ut perspiciatis, unde omnis iste natus error
                                         sit</a></h3>
                                     <span>Previous post</span>
@@ -90,31 +105,7 @@ const Article = () => {
                             </div>
                         </div>
 
-                        <div className="section-row">
-                            <div className="section-title">
-                                <h3 className="title">About <a href="author.html">John Doe</a></h3>
-                            </div>
-                            <div className="author media">
-                                <div className="media-left">
-                                    <a href="author.html">
-                                        <img className="author-img media-object" src="./img/avatar-1.jpg" alt=""/>
-                                    </a>
-                                </div>
-                                <div className="media-body">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut
-                                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                        ullamco
-                                        laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                    <ul className="author-social">
-                                        <li><a href="#"><i className="fa fa-facebook"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-twitter"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-google-plus"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-instagram"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+
 
                         <div>
                             <div className="section-title">

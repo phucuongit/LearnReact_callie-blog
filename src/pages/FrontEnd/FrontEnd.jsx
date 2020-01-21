@@ -18,7 +18,7 @@ const FrontEnd = () => {
 
     function onLoad() {
 
-        apiSent.get('/posts/filter?recentPost=1&&limit=4')
+        apiSent.get('/posts/filter?recentPost=1&limit=4&display=1')
             .then(res => setRecentPost(res.data.success))
             .catch(e => console.log(e));
 
@@ -32,9 +32,7 @@ const FrontEnd = () => {
 
     const loadMore = (offset) => {
         setOfset(offset + 5);
-        // offset = offset + 5;
-        // console.log(posts);
-        apiSent.get(`/posts?offset=${offset}&limit=${limit}`)
+        apiSent.get(`/posts?offset=${offset}&limit=${limit}&display=1`)
             .then(res => {
                 let objectOfObject = res.data.success;
                 const arrayObject = Object.entries(objectOfObject).map(e => {

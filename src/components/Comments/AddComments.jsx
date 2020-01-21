@@ -30,7 +30,9 @@ const AddComments = ({post_id}) => {
                                     dispatch(addComment(res.data.newComment));
                                     toastr.success('You sent successfully contact mail ', {closeDuration: 300});
                                     setStatus(true);
+
                                 }
+
                             }).catch((error)=>{
                                 toastr.error('You did not sent successfully contact mail ', {closeDuration: 300});
                                 resetForm({});

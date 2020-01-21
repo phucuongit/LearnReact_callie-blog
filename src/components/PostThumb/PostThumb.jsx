@@ -1,11 +1,13 @@
 import React from 'react';
 import hot_post_1 from "../../issets/img/hot-post-1.jpg";
 import {Link} from "react-router-dom";
+import Loader from "../Loader/Loader";
 
 const PostThumb = ({post}) => {
     return (
         <div className="post post-thumb">
-            <a className="post-img" href="blog-post.html"><img src={hot_post_1} alt=""/></a>
+            <a className="post-img" href={post.slug}><img src={(post.image !== null) ? post.image.url : '/dist/img/loading1.gif'} alt=""/></a>
+
             <div className="post-body">
                 <div className="post-category">
                     {

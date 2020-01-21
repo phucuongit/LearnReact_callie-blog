@@ -27,6 +27,7 @@ import {Setting} from './Setting/Setting';
 import {initialStateSettings, SettingReducer} from '../../reducers/SettingReducer';
 import Menus from '../Admin/Menus/Menus';
 import MyProfile from "./My Profile/MyProfile";
+import '../../components/Notification/Notification';
 
 const DashBoard =  ({history})  => {
     let { isAuthenticated,setAuthenticated } = useContext(Context);
@@ -53,6 +54,7 @@ const DashBoard =  ({history})  => {
 
             }
 
+
         }else{
             if(authenticate()){
                 setAuthenticated(true);
@@ -70,6 +72,7 @@ const DashBoard =  ({history})  => {
             }else{
                 history.push('/login');
             }
+
         }
     }
     function isAdmin(roles){

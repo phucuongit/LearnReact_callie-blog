@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react';
 import {useReducer} from 'reinspect';
 import './App.css';
 import Header from './components/Header';
@@ -28,6 +28,7 @@ import DocumentMeta from 'react-document-meta';
 import IndexBlog from './pages/Index/IndexBlog';
 import {fetchingSettings, successSettings} from "./action/SettingActionCreators";
 import apiSent from "./api/config";
+import Cookies from 'js-cookie';
 import {initialStateSettings, SettingReducer} from "./reducers/SettingReducer";
 function App ()  {
     const [isAuthenticated, setAuthenticated ] = useState(false);
@@ -44,31 +45,40 @@ function App ()  {
     //         }
     //     }
     // };
+    function useIsMountedRed (){
+        const isMountedRef = useRef(null);
+        useEffect(()=>{
+            isMountedRef.current = true;
+            return () => isMountedRef.current = false;
+        });
+        return isMountedRef;
+    }
+    const isMountedRef = useIsMountedRed();
     useEffect( () => {
+
         document.title =  'Callie Blog';
         onLoad();
-    }, [isAuthenticated]);
-    useEffect( () => {
-        onLoadSetting();
+    }, [isAuthenticated, isMountedRef]);
 
-    }, []);
-
-    function onLoadSetting() {
-
-        // apiSent.get('/settings').then(res => {
-            // setSetting(res.data.success);
-        // });
-    }
     function onLoad(){
+        apiSent.get('/validate-token').then(res => {
+            if(isMountedRef.current){
+                setAuthenticated(res.data.success);
+            }
 
+        }).catch(e => {
+            setAuthenticated(false);
+            // setUserLogin(null);
+            // Cookies.remove('access_token');
+            // Cookies.remove('user_login');
 
-        try{
-            setAuthenticated(authenticate());
-            console.log(isAuthenticated);
-        }catch(e){
-            alert(e);
-        }
-
+        });
+        // try{
+        //     setAuthenticated(authenticate());
+        //     console.log(isAuthenticated);
+        // }catch(e){
+        //     alert(e);
+        // }
     }
 
     const history = createBrowserHistory();

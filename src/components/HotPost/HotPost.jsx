@@ -37,7 +37,7 @@ const HotPost = () => {
                                 PopularPost !== null && (
                                     PopularPost.map((post, index) => {
                                         if(index < 2){
-                                            return (<PostThumb post={post}/>)
+                                            return (<PostThumb key={index}post={post}/>)
                                         }
 
                                     })

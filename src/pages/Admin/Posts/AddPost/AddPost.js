@@ -49,8 +49,6 @@ const AddPost = () => {
             setCategory(res.data.success);
         }).catch(e => console.log(e));
 
-
-
     }
     const handleEditorChange = (e) => {
         setPost({
@@ -242,33 +240,14 @@ const AddPost = () => {
                         </div>
 
                         <div className="card-body" style={{"display": "block"}}>
-                            <div className="misc-pub-post-status">
-                                Trạng thái: <span id="post-status-display">{ (isEditing.editStatus) ?
-                                (
-                                    <>
-                                        <select name={'status'} onClick={(e) => changeEditStatus(e)} style={{marginRight: "20px"}}>
-                                            <option value={0}>Bản nháp</option>
-                                            <option value={1}>Chờ duyệt</option>
-                                        </select>
-                                        <a href={'#'} onClick={changeEdit}>Ok</a>
-                                    </>
-                                )
-                                : (
-                                    <>
-                                        <span style={{fontWeight: 600}}>{ post.status === 0 ? 'Bản nháp' : 'Chờ duyệt' }</span>
-                                        <a href="#" onClick={changeEdit}>Chỉnh sửa status</a>
-                                    </>
-                                )
-                            } </span>
 
-                            </div>
                             <div className="misc-pub-post-status">
                                 Hiển thị: <span id="post-status-display">{ (isEditing.editDisplay) ?
                                 (
                                     <>
                                         <select name={'display'} onClick={(e) => EditStateDisplay(e)} style={{marginRight: "20px"}}>
-                                            <option value={0}>Công khai</option>
-                                            <option value={1}>Riêng tư</option>
+                                            <option value={1}>Công khai</option>
+                                            <option value={0}>Riêng tư</option>
                                         </select>
                                         <a href={'#'} onClick={changeEditDisplay}>Ok</a>
                                     </>
@@ -283,55 +262,7 @@ const AddPost = () => {
                                     </span>
 
                             </div>
-                            <div className="misc-pub-post-status">
-                                Đăng
-                                {(isEditing.editTimePublic) ? (
-                                    <>
-                                        <div className="timestamp-wrap">
-                                            <label><span className="screen-reader-text">Ngày</span>
-                                                <input type="text" name="date" defaultValue={new Date().getDay()} size="2" maxLength="2"
-                                                       autoComplete="off"/>
-                                            </label>
-                                            <label><span className="screen-reader-text">Tháng</span>
-                                                <select id="mm" name="mm" className={'form-control'}>
-                                                    <option value="01" data-text="Th1">01-Th1</option>
-                                                    <option value="02" data-text="Th2">02-Th2</option>
-                                                    <option value="03" data-text="Th3">03-Th3</option>
-                                                    <option value="04" data-text="Th4">04-Th4</option>
-                                                    <option value="05" data-text="Th5">05-Th5</option>
-                                                    <option value="06" data-text="Th6">06-Th6</option>
-                                                    <option value="07" data-text="Th7">07-Th7</option>
-                                                    <option value="08" data-text="Th8">08-Th8</option>
-                                                    <option value="09" data-text="Th9">09-Th9</option>
-                                                    <option value="10" data-text="Th10">10-Th10</option>
-                                                    <option value="11" data-text="Th11">11-Th11</option>
-                                                    <option value="12" data-text="Th12" selected="selected">12-Th12</option>
-                                                </select>
-                                            </label>
-                                            <label><span className="screen-reader-text">Năm</span>
-                                                <input type="number" name="year" defaultValue={new Date().getFullYear()} size="4" maxLength="4"
-                                                       autoComplete="off"/>
-                                            </label>
-                                            <label><span className="screen-reader-text">Giờ</span>
-                                                <input type="number" name="hh" defaultValue={new Date().getHours()} size="2" maxLength="2"
-                                                       autoComplete="off"/>
-                                            </label>
-                                            <label><span className="screen-reader-text">Phút</span>
-                                                <input type="text" id="mn" name="mn" defaultValue={new Date().getMinutes()} size="2" maxLength="2"
-                                                       autoComplete="off"/>
-                                            </label>
-                                        </div>
-                                        <a href="#" className={'timestamp-wrap__ok'} onClick={changeEditPublic}>OK</a>
-                                    </>
-                                ) : (
-                                    <>
-                                        <span style={{fontWeight: 600}}>{ post.time_public === 0 ? ' Ngay lập tức' : ' Ngày: ... Tháng: ... Năm: ...' }</span>
-                                        <a href="#" onClick={changeEditPublic}>Chỉnh sửa đăng</a>
-                                    </>
-                                )
-                                }
 
-                            </div>
                             <button className={'mt-2 btn btn-success'} onClick={publicPost}>Đăng</button>
                         </div>
 

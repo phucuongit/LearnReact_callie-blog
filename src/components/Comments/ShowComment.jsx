@@ -55,7 +55,7 @@ const ShowComments = ({commentProps, post_id}) => {
                 <p>{commentProps.body}</p>
                 <a onClick={(e) => changStatusReply(commentProps.id)} className="reply">Reply</a>
                 {isReply.status === true && isReply.id === commentProps.id && (
-                    <AddReply comment_id={commentProps.id} post_id={post_id}/>
+                    <AddReply callback={changStatusReply} comment_id={commentProps.id} post_id={post_id}/>
                 )}
                 {
                     (typeof commentProps.replies != 'undefined'  && (

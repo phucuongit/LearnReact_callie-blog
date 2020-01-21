@@ -1,16 +1,27 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useState} from "reinspect";
 import apiSent from "../../api/config";
 import {Link} from "react-router-dom";
 
 const CategoriesFooterWidget = () => {
     let [listCategory, setListCategory] = useState(null);
+    function useIsMountedRef(){
+        const isMountedRef = useRef(null);
+        useEffect(() => {
+            isMountedRef.current = true;
+            return () => isMountedRef.current = false;
+        });
+        return isMountedRef;
+    }
+    const isMountedRef = useIsMountedRef();
     useEffect(() => {
         onLoad();
-    }, []);
+    }, [isMountedRef]);
     function onLoad(){
         apiSent.get('/categories?limit=5').then(res => {
-            setListCategory(res.data.success);
+            if(isMountedRef.current) {
+                setListCategory(res.data.success);
+            }
         });
     }
     return (

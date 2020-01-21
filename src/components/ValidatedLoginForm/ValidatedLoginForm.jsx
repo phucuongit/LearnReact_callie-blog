@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useRef} from "react";
 import { Formik } from "formik";
 import axios from 'axios';
 import * as EmailValidator from "email-validator";
@@ -12,7 +12,18 @@ import 'toastr/toastr.scss';
 
 const ValidatedLoginForm = ({appProps, history}) =>{
     const {setUserLogin} = useContext(UserLoginContext);
+    function useIsMountedRed (){
+        const isMountedRef = useRef(null);
+        useEffect(()=>{
+            isMountedRef.current = true;
+            return () => isMountedRef.current = false;
+        });
+        return isMountedRef;
+    }
+    const isMountedRef = useIsMountedRed();
+    useEffect( () => {
 
+    }, [ isMountedRef]);
     return (
         <div>
             <Formik
@@ -29,10 +40,13 @@ const ValidatedLoginForm = ({appProps, history}) =>{
                                 }
                             }).then(res =>{
                                 toastr.success('You login successfully', {closeDuration: 300});
-                                const AUTH_TOKEN = res.data.success.token;
-                                Cookies.set('access_token', 'Bearer ' + AUTH_TOKEN, {expires: 7});
-                                Cookies.set('user_login', res.data.success.user, {expires: 7 });
-                                setUserLogin(res.data.success.user);
+                                if(isMountedRef){
+                                    const AUTH_TOKEN = res.data.success.token;
+                                    Cookies.set('access_token', 'Bearer ' + AUTH_TOKEN, {expires: 7});
+                                    Cookies.set('user_login', res.data.success.user, {expires: 7 });
+                                    setUserLogin(res.data.success.user);
+
+                                }
                                 setSubmitting(false);
                                 setStatus(true);
                                 appProps.setAuthenticated(true);

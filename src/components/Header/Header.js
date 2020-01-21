@@ -1,4 +1,4 @@
-import React, { useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useRef} from 'react';
 import './header.css';
 import {useState} from 'reinspect';
 import logo from '../../issets/img/logo.png';
@@ -7,48 +7,62 @@ import post_5 from '../../issets/img/post-5.jpg';
 import post_12 from '../../issets/img/post-12.jpg';
 import post_13 from '../../issets/img/post-13.jpg';
 import sentApi from '../../api/config';
-import { BrowserRouter as  Link, NavLink} from 'react-router-dom';
+import {BrowserRouter as Link, NavLink} from 'react-router-dom';
 import {UserLoginContext} from "../../Context";
 import DropDownMenu from '../DropDownMenu/DropDownMenu';
+import Cookies from 'js-cookie';
 
 const Header = ({UserLogin, appProps}) => {
     let [isAdmin, setIsAdmin] = useState(false);
     let [menuTop, setMenuTop] = useState(null);
-    const { isAuthenticated, setAuthenticated } = appProps;
-    useEffect(() => {
-        sentApi.get('/menus/filter?menu_type=mainMenu').then(res => {
-            setMenuTop(res.data.success);
-        }).catch(e => console.log(e));
-    }, []);
-    if(UserLogin !== null) {
-        checkAdmin(UserLogin.roles);
+    const {isAuthenticated, setAuthenticated} = appProps;
+
+    function useIsMountedRef() {
+        const isMountedRef = useRef(null);
+        useEffect(() => {
+            isMountedRef.current = true;
+            return () => isMountedRef.current = false;
+        });
+        return isMountedRef;
     }
 
-    function checkAdmin(roles){
-            roles.forEach( (role, index) => {
-                if(role.slug === 'admin') {
-                    setIsAdmin(true);
-                }
-            });
+    const isMountedRef = useIsMountedRef();
+    useEffect(() => {
+        sentApi.get('/menus/filter?menu_type=mainMenu').then(res => {
+            if (isMountedRef.current) {
+                setMenuTop(res.data.success);
+            }
+        }).catch(e => console.log(e));
+        let userRole = null;
+        if (Cookies.get('user_login')) {
+            let userRole = JSON.parse(Cookies.get('user_login'));
+        }
+
+        if (userRole !== null) { // do để ở ngoài useEfect , khi state thay đổi lại render cái này lại nên lỗi many render react
+            checkAdmin(userRole.roles);
+        }
+    }, [isMountedRef]);
+
+
+    function checkAdmin(roles) {
+        roles.forEach((role, index) => {
+            if (role.slug === 'admin') {
+                setIsAdmin(true);
+            }
+        });
     }
 
     return (
-            <header id="header">
+        <header id="header">
 
             <div id="nav">
 
                 <div id="nav-top">
                     <div className="container">
 
-                        <ul className="nav-social">
-                            <li><a href="#"><i className="fa fa-facebook"/></a></li>
-                            <li><a href="#"><i className="fa fa-twitter"/></a></li>
-                            <li><a href="#"><i className="fa fa-google-plus"/></a></li>
-                            <li><a href="#"><i className="fa fa-instagram"/></a></li>
-                        </ul>
 
                         <div className="nav-logo">
-                            <NavLink to="/" exact >
+                            <NavLink to="/" exact>
                                 <img src={logo} alt=""/>
                             </NavLink>
 
@@ -58,14 +72,14 @@ const Header = ({UserLogin, appProps}) => {
                             {isAuthenticated ?
                                 <>
                                     {isAdmin && (
-                                        <button className="aside-btn" ><NavLink exact to="/admin" >Admin DashBoard</NavLink></button>
+                                        <span><NavLink exact to="/admin" style={{color: '#0D65D9'}}>DashBoard</NavLink></span>
                                     )}
-                                        <button className="aside-btn" ><NavLink exact to="/logout" >Logout</NavLink></button>
+                                    <button className="aside-btn"><NavLink exact to="/logout">Logout</NavLink></button>
                                 </>
                                 :
-                                    <>
-                                        <button className="aside-btn"><NavLink exact to="/login">Login</NavLink></button>
-                                    </>
+                                <>
+                                    <button className="aside-btn"><NavLink exact to="/login">Login</NavLink></button>
+                                </>
                             }
 
 
@@ -90,141 +104,10 @@ const Header = ({UserLogin, appProps}) => {
                             {menuTop !== null && (
                                 <>
                                     {menuTop.map((menu, index) => {
-                                        return  (<DropDownMenu key={index} menu={menu}/>);
+                                        return (<DropDownMenu key={index} menu={menu}/>);
                                     })}
 
-                                <li className="has-dropdown megamenu">
-                                    <a href="#">Lifestyle</a>
-                                    <div className="dropdown tab-dropdown">
-                                        <div className="row">
-                                            <div className="col-md-2">
-                                                <ul className="tab-nav">
-                                                    <li className="active"><a data-toggle="tab" href="#tab1">Lifestyle</a></li>
-                                                    <li><a data-toggle="tab" href="#tab2">Fashion</a></li>
-                                                    <li><a data-toggle="tab" href="#tab1">Health</a></li>
-                                                    <li><a data-toggle="tab" href="#tab2">Travel</a></li>
-                                                </ul>
-                                            </div>
-                                            <div className="col-md-10">
-                                                <div className="dropdown-body tab-content">
-
-                                                    <div id="tab1" className="tab-pane fade in active">
-                                                        <div className="row">
-
-                                                            <div className="col-md-4">
-                                                                <div className="post post-sm">
-                                                                    <a className="post-img" href="blog-post.html"><img src={post_10} alt=""/></a>
-                                                                    <div className="post-body">
-                                                                        <div className="post-category">
-                                                                            <a href="category.html">Travel</a>
-                                                                        </div>
-                                                                        <h3 className="post-title title-sm"><a href="blog-post.html">Sed ut perspiciatis, unde omnis iste natus error sit</a></h3>
-                                                                        <ul className="post-meta">
-                                                                            <li><a href="author.html">John Doe</a></li>
-                                                                            <li>20 April 2018</li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="col-md-4">
-                                                                <div className="post post-sm">
-                                                                    <a className="post-img" href="blog-post.html"><img src={post_13} alt=""/></a>
-                                                                    <div className="post-body">
-                                                                        <div className="post-category">
-                                                                            <a href="category.html">Travel</a>
-                                                                            <a href="category.html">Lifestyle</a>
-                                                                        </div>
-                                                                        <h3 className="post-title title-sm"><a href="blog-post.html">Mel ut impetus suscipit tincidunt. Cum id ullum laboramus persequeris.</a></h3>
-                                                                        <ul className="post-meta">
-                                                                            <li><a href="author.html">John Doe</a></li>
-                                                                            <li>20 April 2018</li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="col-md-4">
-                                                                <div className="post post-sm">
-                                                                    <a className="post-img" href="blog-post.html"><img src={post_12} alt=""/></a>
-                                                                    <div className="post-body">
-                                                                        <div className="post-category">
-                                                                            <a href="category.html">Lifestyle</a>
-                                                                        </div>
-                                                                        <h3 className="post-title title-sm"><a href="blog-post.html">Mel ut impetus suscipit tincidunt. Cum id ullum laboramus persequeris.</a></h3>
-                                                                        <ul className="post-meta">
-                                                                            <li><a href="author.html">John Doe</a></li>
-                                                                            <li>20 April 2018</li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div id="tab2" className="tab-pane fade in">
-                                                        <div className="row">
-
-                                                            <div className="col-md-4">
-                                                                <div className="post post-sm">
-                                                                    <a className="post-img" href="blog-post.html"><img src={post_5} alt=""/></a>
-                                                                    <div className="post-body">
-                                                                        <div className="post-category">
-                                                                            <a href="category.html">Lifestyle</a>
-                                                                        </div>
-                                                                        <h3 className="post-title title-sm"><a href="blog-post.html">Postea senserit id eos, vivendo periculis ei qui</a></h3>
-                                                                        <ul className="post-meta">
-                                                                            <li><a href="author.html">John Doe</a></li>
-                                                                            <li>20 April 2018</li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="col-md-4">
-                                                                <div className="post post-sm">
-                                                                    <a className="post-img" href="blog-post.html"><img src="./img/post-8.jpg" alt=""/></a>
-                                                                    <div className="post-body">
-                                                                        <div className="post-category">
-                                                                            <a href="category.html">Fashion</a>
-                                                                            <a href="category.html">Lifestyle</a>
-                                                                        </div>
-                                                                        <h3 className="post-title title-sm"><a href="blog-post.html">Sed ut perspiciatis, unde omnis iste natus error sit</a></h3>
-                                                                        <ul className="post-meta">
-                                                                            <li><a href="author.html">John Doe</a></li>
-                                                                            <li>20 April 2018</li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div className="col-md-4">
-                                                                <div className="post post-sm">
-                                                                    <a className="post-img" href="blog-post.html"><img src="./img/post-9.jpg" alt=""/></a>
-                                                                    <div className="post-body">
-                                                                        <div className="post-category">
-                                                                            <a href="category.html">Lifestyle</a>
-                                                                        </div>
-                                                                        <h3 className="post-title title-sm"><a href="blog-post.html">Mel ut impetus suscipit tincidunt. Cum id ullum laboramus persequeris.</a></h3>
-                                                                        <ul className="post-meta">
-                                                                            <li><a href="author.html">John Doe</a></li>
-                                                                            <li>20 April 2018</li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-
-                            </>
+                                </>
                             )}
                         </ul>
 

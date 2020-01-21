@@ -93,7 +93,7 @@ export const Setting = () => {
                         </div>
                         <div className="card-body">
                             <Formik
-                                initialValues={(response !== null) ? {...response} : {title_page: ''}}
+                                initialValues={(response !== null) ? {...response} : {title_page: '', description: '',twitter: '', google_plus: '', facebook: ''}}
                                 enableReinitialize={true}
                                 onSubmit={(values, {setSubmitting, setStatus, resetForm}) => {
                                     console.log(values);
@@ -123,6 +123,12 @@ export const Setting = () => {
                                         .min(2, "Title is to short - should be 2 chars minimum"),
                                     description_page: Yup.string()
                                         .min(1, "page description is to short - should be 2 chars minimum"),
+                                    twitter: Yup.string()
+                                        .url('You should entern your url'),
+                                    facebook: Yup.string()
+                                        .url('You should entern your url'),
+                                    google_plus: Yup.string()
+                                        .url('You should entern your url'),
                                     footer_description: Yup.string()
                                         .min(1, "Footer description is to short - should be 2 chars minimum"),
                                     admin_email: Yup.string()
@@ -166,6 +172,42 @@ export const Setting = () => {
                                                 {errors.description_page && touched.description_page && (
                                                     <div className="input-feedback"
                                                          style={{marginTop: '20px'}}>{errors.description_page}</div>
+                                                )}
+                                            </div>
+                                            <div className="input-group mb-3">
+                                                <label className="">Facebook Link</label>
+                                                <input type="text"
+                                                       className={(errors.facebook && touched.facebook) ? "error" : "form-control"}
+                                                       defaultValue={(response !== null) ? response.facebook : ''}
+                                                       onChange={handleChange} onBlur={handleBlur}
+                                                       name={'facebook'} placeholder="Enter your title web"/>
+                                                {errors.facebook && touched.facebook && (
+                                                    <div className="input-feedback"
+                                                         style={{marginTop: '20px'}}>{errors.facebook}</div>
+                                                )}
+                                            </div>
+                                            <div className="input-group mb-3">
+                                                <label className="">Twitter Link</label>
+                                                <input type="text"
+                                                       className={(errors.twitter && touched.twitter) ? "error" : "form-control"}
+                                                       defaultValue={(response !== null) ? response.twitter : ''}
+                                                       onChange={handleChange} onBlur={handleBlur}
+                                                       name={'twitter'} placeholder="Enter your title web"/>
+                                                {errors.twitter && touched.twitter && (
+                                                    <div className="input-feedback"
+                                                         style={{marginTop: '20px'}}>{errors.twitter}</div>
+                                                )}
+                                            </div>
+                                            <div className="input-group mb-3">
+                                                <label className="">Google Plus</label>
+                                                <input type="text"
+                                                       className={(errors.google_plus && touched.google_plus) ? "error" : "form-control"}
+                                                       defaultValue={(response !== null) ? response.google_plus : ''}
+                                                       onChange={handleChange} onBlur={handleBlur}
+                                                       name={'google_plus'} placeholder="Enter your title web"/>
+                                                {errors.google_plus && touched.google_plus && (
+                                                    <div className="input-feedback"
+                                                         style={{marginTop: '20px'}}>{errors.google_plus}</div>
                                                 )}
                                             </div>
                                             <div className="input-group mb-3">

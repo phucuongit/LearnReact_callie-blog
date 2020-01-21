@@ -10,6 +10,7 @@ import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from '
 import {GET_POST_FETCHING, GET_POST_SUCCESS} from "../../../../action/postActionTypes";
 import config, {BASE_URL} from '../../../../api/config';
 import './styles.scss';
+import Loader from "../../../../components/Loader/Loader";
 
 const AllPost = () => {
 
@@ -106,13 +107,7 @@ const AllPost = () => {
                                 <tbody>
                                 {
                                     state.status === GET_POST_FETCHING && (
-                                        <tr>
-                                            <td>Fetching...</td>
-                                            <td>Fetching...</td>
-                                            <td>Fetching...</td>
-                                            <td><span className="tag tag-success">Fetching...</span></td>
-                                            <td>Fetching...</td>
-                                        </tr>
+                                        <Loader/>
                                     )
                                 }
                                 {
@@ -160,9 +155,8 @@ const AllPost = () => {
                                                     <td> {post.created_at}</td>
 
                                                     <td>
-                                                        {post.status === 0 && ('Bản nháp')}
-                                                        {post.status === 1 && ('Đã lên lịch')}
-                                                        {post.status === 2 && ('Đã đăng')}
+                                                        {post.display === 0 && ('Private')}
+                                                        {post.display === 1 && ('Public')}
                                                     </td>
                                                     <td>
                                                         <Link className={'btn btn-warning'}

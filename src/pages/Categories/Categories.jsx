@@ -36,7 +36,9 @@ const Categories = () => {
                     <div className="col-md-12">
                         {category !== null && (
                             <div className="post post-thumb">
-                                <a className="post-img" href="blog-post.html"><img src={hotPost3} alt=""/></a>
+                                <Link to={category.PopularPosts.slug} className="post-img">
+                                    <img src={hotPost3} alt=""/>
+                                </Link>
                                 <div className="post-body">
                                     <div className="post-category">
                                         {
@@ -49,7 +51,7 @@ const Categories = () => {
                                     </div>
                                     <h3 className="post-title title-lg"><Link to={category.PopularPosts.slug}>{category.PopularPosts.post_title}</Link></h3>
                                     <ul className="post-meta">
-                                        <li><a href="author.html">{category.PopularPosts.NameAuthor}</a></li>
+                                        <li>{category.PopularPosts.NameAuthor}</li>
                                         <li>{category.PopularPosts.updated_at}</li>
                                     </ul>
                                 </div>

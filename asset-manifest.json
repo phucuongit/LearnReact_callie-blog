@@ -1,16 +1,22 @@
 {
   "files": {
-    "main.css": "/callie-blog/static/css/main.31218e57.chunk.css",
-    "main.js": "/callie-blog/static/js/main.3b85f98c.chunk.js",
-    "main.js.map": "/callie-blog/static/js/main.3b85f98c.chunk.js.map",
+    "main.css": "/callie-blog/static/css/main.26189b36.chunk.css",
+    "main.js": "/callie-blog/static/js/main.2239bfce.chunk.js",
+    "main.js.map": "/callie-blog/static/js/main.2239bfce.chunk.js.map",
     "runtime-main.js": "/callie-blog/static/js/runtime-main.e5c15822.js",
     "runtime-main.js.map": "/callie-blog/static/js/runtime-main.e5c15822.js.map",
-    "static/js/2.b741d38c.chunk.js": "/callie-blog/static/js/2.b741d38c.chunk.js",
-    "static/js/2.b741d38c.chunk.js.map": "/callie-blog/static/js/2.b741d38c.chunk.js.map",
+    "static/css/2.6fc664de.chunk.css": "/callie-blog/static/css/2.6fc664de.chunk.css",
+    "static/js/2.d3b6af52.chunk.js": "/callie-blog/static/js/2.d3b6af52.chunk.js",
+    "static/js/2.d3b6af52.chunk.js.map": "/callie-blog/static/js/2.d3b6af52.chunk.js.map",
     "index.html": "/callie-blog/index.html",
-    "precache-manifest.c60703571376775c813ce1100807977a.js": "/callie-blog/precache-manifest.c60703571376775c813ce1100807977a.js",
+    "precache-manifest.2e3c81074718372615968b17bcbbe541.js": "/callie-blog/precache-manifest.2e3c81074718372615968b17bcbbe541.js",
     "service-worker.js": "/callie-blog/service-worker.js",
-    "static/css/main.31218e57.chunk.css.map": "/callie-blog/static/css/main.31218e57.chunk.css.map",
+    "static/css/2.6fc664de.chunk.css.map": "/callie-blog/static/css/2.6fc664de.chunk.css.map",
+    "static/css/main.26189b36.chunk.css.map": "/callie-blog/static/css/main.26189b36.chunk.css.map",
+    "static/media/AdminLTELogo.png": "/callie-blog/static/media/AdminLTELogo.28f7e31d.png",
+    "static/media/all.scss": "/callie-blog/static/media/fa-solid-900.c2801fb4.svg",
+    "static/media/font-awesome.min.css": "/callie-blog/static/media/fontawesome-webfont.fee66e71.woff",
+    "static/media/header-2.jpg": "/callie-blog/static/media/header-2.8154cce9.jpg",
     "static/media/hot-post-1.jpg": "/callie-blog/static/media/hot-post-1.bde9bf6b.jpg",
     "static/media/hot-post-2.jpg": "/callie-blog/static/media/hot-post-2.b3fb824b.jpg",
     "static/media/hot-post-3.jpg": "/callie-blog/static/media/hot-post-3.4a36e0c7.jpg",
@@ -23,8 +29,9 @@
   },
   "entrypoints": [
     "static/js/runtime-main.e5c15822.js",
-    "static/js/2.b741d38c.chunk.js",
-    "static/css/main.31218e57.chunk.css",
-    "static/js/main.3b85f98c.chunk.js"
+    "static/css/2.6fc664de.chunk.css",
+    "static/js/2.d3b6af52.chunk.js",
+    "static/css/main.26189b36.chunk.css",
+    "static/js/main.2239bfce.chunk.js"
   ]
 }

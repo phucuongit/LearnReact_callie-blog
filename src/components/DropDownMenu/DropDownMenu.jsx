@@ -3,12 +3,13 @@ import {NavLink} from "react-router-dom";
 
 const DropDownMenu = ({menu}) => {
     return (
-                <li className={(menu.submenus.length > 0) ? 'has-dropdown' : ''}>
+        typeof menu !== 'undefined' && (
+                <li className={(typeof menu.submenus !== 'undefined') ? 'has-dropdown' : ''}>
                     <NavLink exact={true} activeStyle={{
                         backgroundColor : 'white',
                         color : 'red'
                     }} to={menu.url}>{menu.name}</NavLink>
-                    {(menu.submenus.length > 0) && (
+                    {(typeof menu.submenus !== 'undefined') && menu.submenus.length > 0 && (
                         <div className="dropdown">
                             <div className="dropdown-body">
                                 <ul className="dropdown-list">
@@ -27,6 +28,8 @@ const DropDownMenu = ({menu}) => {
                         </div>
                     )}
                 </li>
+        )
+
     );
 }
 export default DropDownMenu;

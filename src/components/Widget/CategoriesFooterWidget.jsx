@@ -3,35 +3,16 @@ import {useState} from "reinspect";
 import apiSent from "../../api/config";
 import {Link} from "react-router-dom";
 
-const CategoriesFooterWidget = () => {
-    let [listCategory, setListCategory] = useState(null);
-    function useIsMountedRef(){
-        const isMountedRef = useRef(null);
-        useEffect(() => {
-            isMountedRef.current = true;
-            return () => isMountedRef.current = false;
-        });
-        return isMountedRef;
-    }
-    const isMountedRef = useIsMountedRef();
-    useEffect(() => {
-        onLoad();
-    }, [isMountedRef]);
-    function onLoad(){
-        apiSent.get('/categories?limit=5').then(res => {
-            if(isMountedRef.current) {
-                setListCategory(res.data.success);
-            }
-        });
-    }
+const CategoriesFooterWidget = ({categories}) => {
+
     return (
-        listCategory !== null && (
+        categories !== null && (
             <div className="footer-widget">
                 <h3 className="footer-title">Categories</h3>
                 <div className="category-widget">
                     <ul>
-                        {listCategory.map((category, index) => {
-                            return <li key={index}><Link to={`/categories/${category.category_slug}`}>{category.category_name} <span>{category.posts_count}</span></Link></li>
+                        {categories.map((category, index) => {
+                            return <li key={index}><Link to={`/categories/${category.category_slug}`}>{category.category_name} <span>{category.total_post}</span></Link></li>
                         })}
                     </ul>
                 </div>

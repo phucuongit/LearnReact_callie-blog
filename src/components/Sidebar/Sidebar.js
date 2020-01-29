@@ -5,6 +5,10 @@ import CategoryWidget from '../Widget/CategoryWidget';
 import PopularPostsWidget from "../Widget/PopularPostsWidget";
 
 class Sidebar extends Component {
+    constructor(props) {
+        super();
+        this.categories = props.categories;
+    }
     render() {
         return (
             <div>
@@ -15,7 +19,7 @@ class Sidebar extends Component {
                 </div>
 
 
-                <CategoryWidget/>
+                <CategoryWidget category={this.categories}/>
 
                 <PopularPostsWidget/>
 

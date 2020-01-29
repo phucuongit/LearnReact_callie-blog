@@ -45,8 +45,7 @@ const PopularPostsWidget = () => {
                                     {
                                         post.categories.map((category, index) =>  {
                                             if(index < 2) {
-                                                return <Link key={index}
-                                                             to={category.category_slug}>{category.category_name}</Link>
+                                                return <Link key={index} dto={category.category_slug}>{category.category_name}</Link>
                                             }
                                         })
                                     }

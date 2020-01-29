@@ -12,7 +12,7 @@ import {UserLoginContext} from "../../Context";
 import DropDownMenu from '../DropDownMenu/DropDownMenu';
 import Cookies from 'js-cookie';
 
-const Header = ({UserLogin, appProps}) => {
+const Header = ({UserLogin, appProps, menu}) => {
     let [isAdmin, setIsAdmin] = useState(false);
     let [menuTop, setMenuTop] = useState(null);
     const {isAuthenticated, setAuthenticated} = appProps;
@@ -28,11 +28,11 @@ const Header = ({UserLogin, appProps}) => {
 
     const isMountedRef = useIsMountedRef();
     useEffect(() => {
-        sentApi.get('/menus/filter?menu_type=mainMenu').then(res => {
-            if (isMountedRef.current) {
-                setMenuTop(res.data.success);
-            }
-        }).catch(e => console.log(e));
+        // sentApi.get('/menus/filter?menu_type=mainMenu').then(res => {
+        //     if (isMountedRef.current) {
+        //         setMenuTop(res.data.success);
+        //     }
+        // }).catch(e => console.log(e));
         let userRole = null;
         if (Cookies.get('user_login')) {
             let userRole = JSON.parse(Cookies.get('user_login'));
@@ -51,7 +51,6 @@ const Header = ({UserLogin, appProps}) => {
             }
         });
     }
-
     return (
         <header id="header">
 
@@ -65,7 +64,6 @@ const Header = ({UserLogin, appProps}) => {
                             <NavLink to="/" exact>
                                 <img src={logo} alt=""/>
                             </NavLink>
-
                         </div>
 
                         <div className="nav-btns">
@@ -101,13 +99,10 @@ const Header = ({UserLogin, appProps}) => {
                     <div className="container">
 
                         <ul className="nav-menu">
-                            {menuTop !== null && (
-                                <>
-                                    {menuTop.map((menu, index) => {
-                                        return (<DropDownMenu key={index} menu={menu}/>);
-                                    })}
-
-                                </>
+                            {menu !== null && (
+                                menu.map((menu, index) => {
+                                    return (<DropDownMenu key={index} menu={menu}/>);
+                                })
                             )}
                         </ul>
 

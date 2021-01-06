@@ -77,6 +77,6 @@
     "@ckeditor/ckeditor5-basic-styles": "^16.0.0",
     "@ckeditor/ckeditor5-editor-classic": "^16.0.0",
     "@ckeditor/ckeditor5-essentials": "^16.0.0",
-    "axios": "^0.19.0"
+    "axios": "^0.21.1"
   }
 }
